@@ -44,24 +44,3 @@ export const authenticate = shopify.authenticate
 export const login = shopify.login
 export const registerWebhooks = shopify.registerWebhooks
 export const sessionStorage = shopify.sessionStorage
-
-// export const shopifyFront = shopifyApi({
-//   apiKey: '2c3992ce70ba6baadcb61cbf05774bb6',
-//   apiSecretKey: '8b1c72026a8ee3c85db551bd3e795576',
-//   apiVersion: LATEST_API_VERSION,
-//   isEmbeddedApp: false,
-//   hostName: 'https://towns-installations-lounge-compliant.trycloudflare.com',
-//   adminApiAccessToken: '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',
-//   scopes: [
-//     'read_analytics',
-//     'write_metaobjects',
-//     'read_metaobjects',
-//     'write_draft_orders',
-//     'read_draft_orders',
-//     'write_discounts',
-//     'read_discounts',
-//     'write_products',
-//     'read_products',
-//   ],
-//   restResources,
-// })
