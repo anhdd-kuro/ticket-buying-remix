@@ -7,8 +7,12 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import stylesheet from '~/tailwind.css'
+import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 
-export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
+export const links = () => [
+  { rel: 'stylesheet', href: stylesheet },
+  { rel: 'stylesheet', href: polarisStyles },
+]
 
 export default function App() {
   return (
