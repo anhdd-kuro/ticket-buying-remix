@@ -2,18 +2,18 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://quality-gauge-rico-schedule.trycloudflare.com"
+application_url = "https://msg-suggestion-destination-divx.trycloudflare.com"
 embedded = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products,write_draft_orders,read_customers"
+scopes = "write_products,write_draft_orders,read_customers,read_metaobjects"
 
 [auth]
 redirect_urls = [
-  "https://quality-gauge-rico-schedule.trycloudflare.com/auth/callback",
-  "https://quality-gauge-rico-schedule.trycloudflare.com/auth/shopify/callback",
-  "https://quality-gauge-rico-schedule.trycloudflare.com/api/auth/callback"
+  "https://msg-suggestion-destination-divx.trycloudflare.com/auth/callback",
+  "https://msg-suggestion-destination-divx.trycloudflare.com/auth/shopify/callback",
+  "https://msg-suggestion-destination-divx.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
