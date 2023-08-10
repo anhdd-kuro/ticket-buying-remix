@@ -2,7 +2,6 @@ import { json, redirect } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
 import { useRef, useState } from 'react'
 import { Modal, AppProvider as PolarisAppProvider } from '@shopify/polaris'
-import { shopifyFront } from '~/shopify.server'
 
 export async function loader({ request, response }) {
   return {
@@ -79,9 +78,12 @@ export const action = async ({ request, response }) => {
 
   // const { session, admin } = await authenticate.admin(request);
   const draftOrderResult = await apiResponse.json()
+  console.log(draftOrderResult, 'draftOrderResult')
 
-  return json({
-    data: draftOrderResult.data,
+  return redirect('/orders/complete', {
+    headers: {
+      'order-name': draftOrderResult.draftOrder.name,
+    },
   })
 }
 
@@ -115,7 +117,12 @@ export default function App() {
         >
           <Modal.Section>
             <div className="flex justify-center items-center flex-col gap-y-4">
-              <p className="text-xl">同時に会員登録しますか</p>
+              <p className="text-xl text-center">
+                同時に会員登録しますか <br />
+                <span className="text-sm">
+                  *購入後に登録の招待メールをお送りいたします
+                </span>
+              </p>
               <input
                 type="email"
                 value={email}
@@ -134,7 +141,7 @@ export default function App() {
                 onClick={() => formRef.current?.submit()}
                 className="p-2 border rounded"
               >
-                登録なしで購入する
+                登録せずに購入する
               </button>
             </div>
           </Modal.Section>
