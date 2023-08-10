@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-type ListReferences = {
+export type ListReferences = {
   nodes:
     | {
         handle: string
@@ -14,14 +14,14 @@ type ListReferences = {
     | null
 }
 
-type Reference = {
+export type Reference = {
   image: {
     url: string
     altText: string
   } | null
 } | null
 
-type MetaobjectResult = {
+export type MetaobjectResult = {
   metaobjects: {
     nodes: {
       handle: string
@@ -38,7 +38,7 @@ type MetaobjectResult = {
   }
 }
 
-export const useMetaobjectQuery = <
+export const useMetaobjectParser = <
   T extends Record<string, string | number | ListReferences | Reference> & {
     handle: string
     id: string
@@ -48,7 +48,7 @@ export const useMetaobjectQuery = <
   referenceKeys,
   listReferencesKeys,
 }: {
-  data: MetaobjectResult
+  data?: MetaobjectResult | null
   referenceKeys?: string[]
   listReferencesKeys?: string[]
 }) => {

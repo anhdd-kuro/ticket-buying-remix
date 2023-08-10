@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://msg-suggestion-destination-divx.trycloudflare.com"
+application_url = "https://os-consoles-invited-haiti.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects"
 
 [auth]
 redirect_urls = [
-  "https://msg-suggestion-destination-divx.trycloudflare.com/auth/callback",
-  "https://msg-suggestion-destination-divx.trycloudflare.com/auth/shopify/callback",
-  "https://msg-suggestion-destination-divx.trycloudflare.com/api/auth/callback"
+  "https://os-consoles-invited-haiti.trycloudflare.com/auth/callback",
+  "https://os-consoles-invited-haiti.trycloudflare.com/auth/shopify/callback",
+  "https://os-consoles-invited-haiti.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

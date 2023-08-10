@@ -1,7 +1,8 @@
-import { json } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { sessionStorage, shopifyFront } from '~/shopify.server'
-import { useMetaobjectParser } from '../hooks'
+import type { MetaobjectResult } from '~/hooks'
+import { useMetaobjectParser } from '~/hooks'
 
 type Movie = {
   id: string
@@ -33,47 +34,49 @@ type Movie = {
   }
 }
 
-export const loader = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const session = await sessionStorage.findSessionsByShop(
     'krb-kuro.myshopify.com'
   )
   console.log(session)
 
-  if (!session) return {}
+  if (!session)
+    return {
+      data: null,
+    }
 
   const client = new shopifyFront.clients.Graphql({
     session: session[0],
   })
 
   // const { session, admin } = await authenticate.admin(request);
-  const getResponse = await client.query({
+  const getResponse = await client.query<{ data: MetaobjectResult }>({
     data: {
       query: GET_MOVIES,
     },
   })
   console.log(getResponse.headers, getResponse.body)
 
-  return json({
-    data: getResponse.body,
-  })
+  return {
+    data: getResponse.body.data,
+  }
 }
 
 export default function () {
-  const { movies } = useLoaderData()
+  const { data } = useLoaderData<typeof loader>()
   const { parsedData } = useMetaobjectParser<Movie>({
-    data: movies,
+    data,
     referenceKeys: ['thumbnail'],
     listReferencesKeys: ['products', 'genre'],
   })
+
+  console.log(data)
 
   return (
     <div className="flex flex-wrap gap-4">
       {parsedData?.map((movie) => (
         <div key={movie.handle} className="w-1/4 relative hover:opacity-80">
-          <Link
-            to={`/shows/${movie.handle}`}
-            className="absolute w-full h-full top-0 left-0"
-          >
+          <Link to={`/movies/${movie.handle}`}>
             <div className="bg-white rounded-lg shadow-lg">
               <img
                 className="w-full h-48 object-cover object-center"
