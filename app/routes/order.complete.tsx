@@ -13,10 +13,11 @@ export default function () {
   const { orderName } = useLoaderData()
 
   return (
-    <div>
-      <h1>ご購入ありがとうございました</h1>
-      <p>注文番号: {orderName}</p>
-      <p>お支払いは窓口までお越しください</p>
+    <div className="text-center space-y-4">
+      <h1 className="text-4xl">ご購入ありがとうございました</h1>
+      <p className="text-3xl">注文番号: {orderName}</p>
+      <p className="text-3xl">お支払いは窓口までお越しください</p>
+      <p>領収書印刷...</p>
     </div>
   )
 }

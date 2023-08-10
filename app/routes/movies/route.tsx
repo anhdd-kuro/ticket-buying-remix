@@ -1,6 +1,5 @@
 import type { LoaderArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import { sessionStorage, shopifyFront } from '~/shopify.server'
 import type { MetaobjectResult } from '~/hooks'
 import { useMetaobjectParser } from '~/hooks'
 
@@ -72,7 +71,7 @@ export default function () {
   console.log(data)
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 container mx-auto p-8">
       {parsedData?.map((movie) => (
         <div key={movie.handle} className="w-1/4 relative hover:opacity-80">
           <Link to={`/movies/${movie.handle}`}>

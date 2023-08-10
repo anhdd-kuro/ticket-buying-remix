@@ -2,7 +2,7 @@ import { json, redirect } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
 
 import { shopifyApp } from '@shopify/shopify-app-remix'
-import { authenticate, sessionStorage, shopifyFront } from '~/shopify.server'
+import { authenticate, sessionStorage } from '~/shopify.server'
 import { shopifyApi, LATEST_API_VERSION } from '@shopify/shopify-api'
 import { restResources } from '@shopify/shopify-api/rest/admin/2023-07'
 
@@ -40,29 +40,21 @@ export const action = async ({ request }) => {
       }
     }
 
-    const session = await sessionStorage.findSessionsByShop(shop)
-
-    if (!session) return {}
-
-    const client = new shopifyFront.clients.Graphql({
-      session: session[0],
-    })
-
     // const { session, admin } = await authenticate.admin(request);
-    const result = await client.query({
-      data: {
-        query: DELETE_ORDER,
-        variables: {
-          input: {
-            id: orderId,
-          },
-        },
-      },
-    })
+    // const result = await client.query({
+    //   data: {
+    //     query: DELETE_ORDER,
+    //     variables: {
+    //       input: {
+    //         id: orderId,
+    //       },
+    //     },
+    //   },
+    // })
 
-    return json({
-      data: result,
-    })
+    // return json({
+    //   data: result,
+    // })
   } catch (error) {
     return {
       status: 500,

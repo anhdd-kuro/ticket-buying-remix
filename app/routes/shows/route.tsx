@@ -79,10 +79,12 @@ export const action = async ({ request, response }) => {
   // const { session, admin } = await authenticate.admin(request);
   const draftOrderResult = await apiResponse.json()
   console.log(draftOrderResult, 'draftOrderResult')
+  const orderName = draftOrderResult?.data?.draftOrderCreate?.draftOrder?.name
+  console.log(orderName, 'orderName')
 
-  return redirect('/orders/complete', {
+  return redirect('/order/complete', {
     headers: {
-      'order-name': draftOrderResult.draftOrder.name,
+      'order-name': orderName,
     },
   })
 }
@@ -176,6 +178,7 @@ mutation draftOrderCreate($input: DraftOrderInput!) {
       id
       totalPrice
       subtotalPrice
+      name
       customer {
         id
         email
