@@ -1,39 +1,39 @@
-import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { json, redirect } from '@remix-run/node'
+import { Form, useLoaderData } from '@remix-run/react'
 
-import { shopifyApp } from "@shopify/shopify-app-remix";
-import { authenticate, sessionStorage, shopifyFront } from "~/shopify.server";
-import { shopifyApi, LATEST_API_VERSION } from "@shopify/shopify-api";
-import { restResources } from "@shopify/shopify-api/rest/admin/2023-07";
+import { shopifyApp } from '@shopify/shopify-app-remix'
+import { authenticate, sessionStorage, shopifyFront } from '~/shopify.server'
+import { shopifyApi, LATEST_API_VERSION } from '@shopify/shopify-api'
+import { restResources } from '@shopify/shopify-api/rest/admin/2023-07'
 
 export async function loader({ request, response }) {
-  const url = new URL(request.url);
+  const url = new URL(request.url)
 
   const session = await sessionStorage.findSessionsByShop(
-    "krb-kuro.myshopify.com"
-  );
-  console.log(session);
+    'krb-kuro.myshopify.com'
+  )
+  console.log(session)
 
-  if (!session) return {};
+  if (!session) return {}
 
   const client = new shopifyFront.clients.Rest({
     session: session[0],
-  });
+  })
 
   // const { session, admin } = await authenticate.admin(request);
   const getResponse = await client.get({
-    path: "products",
-  });
-  console.log(getResponse.headers, getResponse.body);
+    path: 'products',
+  })
+  console.log(getResponse.headers, getResponse.body)
 
   return json({
     data: getResponse.body,
-  });
+  })
 }
 
 export default function App() {
   //https://github.com/Shopify/shopify-api-js/blob/main/docs/reference/clients/Rest.md
-  const { data } = useLoaderData();
+  const { data } = useLoaderData()
   // console.log(data.products);
 
   return (
@@ -46,7 +46,7 @@ export default function App() {
           >
             <a href={`/shows/${product.handle}`}></a>
             <img
-              src={product.image ? product.image.src : ""}
+              src={product.image ? product.image.src : ''}
               alt={product.title}
               className="w-full h-48 object-cover"
             />
@@ -57,5 +57,5 @@ export default function App() {
         ))}
       </div>
     </div>
-  );
+  )
 }

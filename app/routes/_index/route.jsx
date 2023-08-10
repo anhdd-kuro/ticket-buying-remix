@@ -1,24 +1,24 @@
-import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { json, redirect } from '@remix-run/node'
+import { Form, useLoaderData } from '@remix-run/react'
 
-import { login } from "../../shopify.server";
+import { login } from '../../shopify.server'
 
-import indexStyles from "./style.css";
+import indexStyles from './style.css'
 
-export const links = () => [{ rel: "stylesheet", href: indexStyles }];
+export const links = () => [{ rel: 'stylesheet', href: indexStyles }]
 
 export async function loader({ request }) {
-  const url = new URL(request.url);
+  const url = new URL(request.url)
 
-  if (url.searchParams.get("shop")) {
-    throw redirect(`/app?${url.searchParams.toString()}`);
+  if (url.searchParams.get('shop')) {
+    throw redirect(`/app?${url.searchParams.toString()}`)
   }
 
-  return json({ showForm: Boolean(login) });
+  return json({ showForm: Boolean(login) })
 }
 
 export default function App() {
-  const { showForm } = useLoaderData();
+  const { showForm } = useLoaderData()
 
   return (
     <div className="index">
@@ -35,5 +35,5 @@ export default function App() {
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -5,12 +5,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
-import stylesheet from "~/tailwind.css";
+} from '@remix-run/react'
+import stylesheet from '~/tailwind.css'
 
-export const links = () => [
-  { rel: "stylesheet", href: stylesheet },
-];
+export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
 
 export default function App() {
   return (
@@ -28,5 +26,5 @@ export default function App() {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }

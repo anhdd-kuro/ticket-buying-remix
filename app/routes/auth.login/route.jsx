@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { json } from "@remix-run/node";
+import { useState } from 'react'
+import { json } from '@remix-run/node'
 import {
   AppProvider as PolarisAppProvider,
   Button,
@@ -8,39 +8,39 @@ import {
   Page,
   Text,
   TextField,
-} from "@shopify/polaris";
+} from '@shopify/polaris'
 
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import polarisStyles from "@shopify/polaris/build/esm/styles.css";
+import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 
-import { login } from "../../shopify.server";
-import { loginErrorMessage } from "./error.server";
+import { login } from '../../shopify.server'
+import { loginErrorMessage } from './error.server'
 
-export const links = () => [{ rel: "stylesheet", href: polarisStyles }];
+export const links = () => [{ rel: 'stylesheet', href: polarisStyles }]
 
 export async function loader({ request }) {
-  const errors = loginErrorMessage(await login(request));
+  const errors = loginErrorMessage(await login(request))
 
   return json({
     errors,
     polarisTranslations: require(`@shopify/polaris/locales/en.json`),
-  });
+  })
 }
 
 export async function action({ request }) {
-  const errors = loginErrorMessage(await login(request));
+  const errors = loginErrorMessage(await login(request))
 
   return json({
     errors,
-  });
+  })
 }
 
 export default function Auth() {
-  const { polarisTranslations } = useLoaderData();
-  const loaderData = useLoaderData();
-  const actionData = useActionData();
-  const [shop, setShop] = useState("");
-  const { errors } = actionData || loaderData;
+  const { polarisTranslations } = useLoaderData()
+  const loaderData = useLoaderData()
+  const actionData = useActionData()
+  const [shop, setShop] = useState('')
+  const { errors } = actionData || loaderData
 
   return (
     <PolarisAppProvider i18n={polarisTranslations}>
@@ -67,5 +67,5 @@ export default function Auth() {
         </Card>
       </Page>
     </PolarisAppProvider>
-  );
+  )
 }

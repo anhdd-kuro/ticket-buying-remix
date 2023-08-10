@@ -8,15 +8,15 @@ if (
   (!process.env.SHOPIFY_APP_URL ||
     process.env.SHOPIFY_APP_URL === process.env.HOST)
 ) {
-  process.env.SHOPIFY_APP_URL = process.env.HOST;
-  delete process.env.HOST;
+  process.env.SHOPIFY_APP_URL = process.env.HOST
+  delete process.env.HOST
 }
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  ignoredRouteFiles: ["**/.*"],
-  appDirectory: "app",
-  serverModuleFormat: "cjs",
+  ignoredRouteFiles: ['**/.*'],
+  appDirectory: 'app',
+  serverModuleFormat: 'cjs',
   future: {
     v2_errorBoundary: true,
     v2_headers: true,
@@ -28,4 +28,4 @@ module.exports = {
     },
   },
   tailwind: true,
-};
+}

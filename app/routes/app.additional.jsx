@@ -7,7 +7,7 @@ import {
   Page,
   Text,
   VerticalStack,
-} from "@shopify/polaris";
+} from '@shopify/polaris'
 
 export default function AdditionalPage() {
   return (
@@ -20,7 +20,7 @@ export default function AdditionalPage() {
               <Text as="p" variant="bodyMd">
                 The app template comes with an additional page which
                 demonstrates how to create multiple pages within app navigation
-                using{" "}
+                using{' '}
                 <Link
                   url="https://shopify.dev/docs/apps/tools/app-bridge"
                   target="_blank"
@@ -59,7 +59,7 @@ export default function AdditionalPage() {
         </Layout.Section>
       </Layout>
     </Page>
-  );
+  )
 }
 
 function Code({ children }) {
@@ -76,5 +76,5 @@ function Code({ children }) {
     >
       <code>{children}</code>
     </Box>
-  );
+  )
 }
