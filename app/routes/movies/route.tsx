@@ -35,30 +35,29 @@ type Movie = {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const session = await sessionStorage.findSessionsByShop(
-    'krb-kuro.myshopify.com'
-  )
-  console.log(session)
-
-  if (!session)
+  if (!process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN)
     return {
       data: null,
     }
 
-  const client = new shopifyFront.clients.Graphql({
-    session: session[0],
-  })
+  const apiResponse = await fetch(
+    'https://krb-kuro.myshopify.com/admin/api/2023-07/graphql.json',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
+      },
+      body: JSON.stringify({ query: GET_MOVIES }),
+    }
+  )
 
-  // const { session, admin } = await authenticate.admin(request);
-  const getResponse = await client.query<{ data: MetaobjectResult }>({
-    data: {
-      query: GET_MOVIES,
-    },
-  })
-  console.log(getResponse.headers, getResponse.body)
+  const resData: { data: MetaobjectResult } = await apiResponse.json()
+
+  console.log(resData, 'apiResponse')
 
   return {
-    data: getResponse.body.data,
+    data: resData.data,
   }
 }
 

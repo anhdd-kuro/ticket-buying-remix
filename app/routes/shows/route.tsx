@@ -102,7 +102,7 @@ export default function App() {
     <div className="index">
       <Form action="/shows" method="POST" className="mb-4">
         <button className="p-2 border rounded" type="submit">
-          Create Draft Order
+          Create Draft Order ( 下書き注文を作成 )
         </button>
       </Form>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

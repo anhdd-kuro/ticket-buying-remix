@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function () {
   console.log('rendering movie')
-  const { handle } = useLoaderData()
+  const { handle } = useLoaderData<typeof loader>()
   // const movies = useRouteLoaderData('movies')
   // const currentMovie = movies.find((movie) => movie.handle === handle)
 
