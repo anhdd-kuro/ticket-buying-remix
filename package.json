@@ -4,7 +4,11 @@
   "scripts": {
     "build": "NODE_ENV=production remix build",
     "predev": "prisma generate && prisma migrate deploy",
-    "dev": "shopify app dev",
+    "dev": "run-p dev:svg dev:remix",
+    "icons": "npx @svgr/cli --out-dir app/components/icons -- app/icons",
+    "icons:watch": "npm-watch icons",
+    "dev:svg": "run-s icons icons:watch",
+    "dev:remix": "shopify app dev",
     "config:link": "shopify app config link",
     "config:push": "shopify app config push",
     "generate": "shopify app generate",
@@ -16,6 +20,15 @@
     "shopify": "shopify",
     "prisma": "prisma",
     "setup": "prisma generate && prisma migrate deploy"
+  },
+  "watch": {
+    "icons": {
+      "patterns": [
+        "icons"
+      ],
+      "extensions": "svg",
+      "quiet": false
+    }
   },
   "dependencies": {
     "@prisma/client": "^5.1.1",
@@ -32,16 +45,24 @@
     "isbot": "^3.6.13",
     "prisma": "^5.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
+    "@svgr/cli": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-prettier": "^8.1.0",
+    "@svgr/plugin-svgo": "^8.1.0",
     "@types/eslint": "^8.44.2",
     "app": "^0.1.0",
+    "clsx": "^2.0.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "npm-run-all": "^4.1.5",
+    "npm-watch": "^0.11.0",
     "prettier": "^3.0.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"

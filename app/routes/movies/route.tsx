@@ -1,9 +1,9 @@
 import type { LoaderArgs } from '@remix-run/node'
-import { Link, useLoaderData, useMatches } from '@remix-run/react'
+import { Outlet, useLoaderData, useMatches } from '@remix-run/react'
 import type { MetaobjectResult } from '~/hooks'
 import { useMetaobjectParser } from '~/hooks'
 
-type Movie = {
+export type Movie = {
   id: string
   handle: string
   title: string
@@ -29,8 +29,24 @@ type Movie = {
       id: string
       title: string
       handle: string
+      metaData: {
+        key: string
+        value: string
+      }
+      variants: {
+        nodes: {
+          id: string
+          title: string
+          price?: string
+        }[]
+      }
     }[]
   }
+}
+
+export type MoviesContextData = {
+  data: MetaobjectResult
+  parsedData: Movie[]
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -76,34 +92,15 @@ export default function () {
   console.log(data)
 
   return (
-    <div className="flex flex-wrap gap-4 container mx-auto p-8">
-      {parsedData?.map((movie) => (
-        <div key={movie.handle} className="w-1/4 relative hover:opacity-80">
-          <Link to={`/movies/${movie.handle}`}>
-            <div className="bg-white rounded-lg shadow-lg">
-              <img
-                className="w-full h-48 object-cover object-center"
-                // @ts-ignore-next-line
-                src={movie.thumbnail?.image.url || ''}
-                alt={movie.thumbnail?.image.altText || movie.title}
-              />
-              <div className="p-4">
-                <h2 className="text-gray-900 font-bold text-2xl mb-2">
-                  {movie.title}
-                </h2>
-                {/* <div dangerouslySetInnerHTML={{ __html: movie.description }} /> */}
-              </div>
-            </div>
-          </Link>
-        </div>
-      ))}
-    </div>
+    <>
+      <Outlet context={{ data, parsedData } as MoviesContextData} />
+    </>
   )
 }
 
 const GET_MOVIES = `
 query getMovies {
-  metaobjects(first: 20, type: "movies") {
+  metaobjects(first: 10, type: "movies") {
     nodes {
       handle
       id
@@ -115,6 +112,18 @@ query getMovies {
             ... on Product {
               id
               title
+              handle
+              metaData: metafield(key: "meta_data", namespace: "custom") {
+                key
+                value
+              }
+              variants: variants(first: 5) {
+                nodes {
+                  id
+                  title
+                  price
+                }
+              }
             }
             ... on Metaobject {
               handle

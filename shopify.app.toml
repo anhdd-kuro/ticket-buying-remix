@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://banned-appeared-usda-movie.trycloudflare.com"
+application_url = "https://pat-artwork-floppy-detail.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects"
 
 [auth]
 redirect_urls = [
-  "https://banned-appeared-usda-movie.trycloudflare.com/auth/callback",
-  "https://banned-appeared-usda-movie.trycloudflare.com/auth/shopify/callback",
-  "https://banned-appeared-usda-movie.trycloudflare.com/api/auth/callback"
+  "https://pat-artwork-floppy-detail.trycloudflare.com/auth/callback",
+  "https://pat-artwork-floppy-detail.trycloudflare.com/auth/shopify/callback",
+  "https://pat-artwork-floppy-detail.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

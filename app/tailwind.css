@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  #seatmap > g {
+    cursor: pointer;
+  }
+
+  #seatmap g.selected polygon, #seatmap g.selected circle, #seatmap g.selected path {
+    fill: #2dbcb6;
+  }
+}
