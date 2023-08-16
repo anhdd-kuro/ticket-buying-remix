@@ -1,30 +1,22 @@
-import type { LoaderArgs } from '@remix-run/node'
-import { useLoaderData, useOutletContext, useParams } from '@remix-run/react'
+import { FormData, type LoaderArgs } from '@remix-run/node'
+import { useOutletContext, useParams, Form } from '@remix-run/react'
 import type { Movie, MoviesContextData } from '../movies/route'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { SeatsSelect } from '~/components/SeatsSelect'
 import { useTicketsStore } from '~/stores'
-import { Select, AppProvider } from '@shopify/polaris'
+import { Modal, Select } from '@shopify/polaris'
 import clsx from 'clsx'
-
-const options = [
-  { label: 'Today', value: 'today' },
-  { label: 'Yesterday', value: 'yesterday' },
-  { label: 'Last 7 days', value: 'lastWeek' },
-]
+import { z } from 'zod'
 
 export async function loader({ request }: LoaderArgs) {
   // const url = new URL(request.url)
   // const handle = url.searchParams.get('handle')
 
-  return {
-    polarisTranslations: require('@shopify/polaris/locales/en.json'),
-  }
+  return {}
 }
 
 export default function () {
   const { handle } = useParams()
-  const { polarisTranslations } = useLoaderData()
 
   const { parsedData: movies } = useOutletContext<MoviesContextData>()
 
@@ -76,99 +68,168 @@ export default function () {
 
   const tickets = useTicketsStore((state) => state.tickets)
   const modifyTicket = useTicketsStore((state) => state.modifyTicket)
+  const isAllTicketsSet = useTicketsStore((state) => state.isAllTicketsSet)
   const [show, setShow] = useState<Movie['products']['nodes'][number] | null>(
     null
   )
   console.log(show, 'show')
 
+  // Modal
+  const [modal, setModal] = useState(false)
+  const toggleModal = useCallback(() => setModal(!modal), [modal])
+
+  // Email
+  const [email, setEmail] = useState('')
+
   return (
-    <AppProvider i18n={polarisTranslations}>
-      <div>
-        <h1>{currentMovie?.title}</h1>
-        <div className="flex gap-2">
-          <div className="w-1/2">
-            <SeatsSelect />
-          </div>
-          <ol className="flex-1">
-            {Array.from(groupedMetaData).map(([date, productIds]) => (
-              <li key={date} className="rounded-lg shadow-md bg-white p-4 mb-4">
-                <p>Date: {date}</p>
-                <ol className="rounded-lg border p-4 flex gap-4">
-                  {productIds.map((productId) => (
-                    <li key={productId}>
-                      <button
-                        className={clsx(
-                          'rounded-lg border border-gray-200 p-4 hover:bg-black hover:text-white',
-                          show?.id === productId && 'bg-black text-white'
-                        )}
-                        onClick={() => {
-                          setShow(
-                            currentMovie?.products.nodes.find(
-                              (product) => product.id === productId
-                            ) ?? null
-                          )
-                        }}
-                      >
-                        <strong className="font-bold text-lg">
-                          {metaData.get(productId)?.startHM}
-                        </strong>
-                        <p>~ {metaData.get(productId)?.endHM}</p>
-                      </button>
-                    </li>
-                  ))}
-                </ol>
-              </li>
-            ))}
-          </ol>
+    <div>
+      <h1>{currentMovie?.title}</h1>
+      <div className="flex gap-2">
+        <div className="w-1/2">
+          <SeatsSelect />
         </div>
-        <div className="flex flex-col gap-2 p-4 mx-auto">
-          <ul className="flex flex-col gap-2">
-            {tickets.map((ticket) => (
-              <li key={ticket.seat} className="flex items-center gap-4">
-                <p className="text-xl font-bold">{ticket.seat}</p>
-                <div className="flex items-center gap-4 flex-1">
-                  <p className="text-lg font-bold leading-none">チケット種別</p>
-                  {show && (
-                    <Select
-                      label=""
-                      value={ticket.type}
-                      labelInline
-                      options={[
-                        {
-                          label: '選択してください',
-                          value: '',
-                          disabled: true,
-                        },
-                        ...show?.variants.nodes.map((v) => ({
-                          label: v.title,
-                          value: v.id,
-                        })),
-                      ]}
-                      onChange={(value) => {
-                        modifyTicket(
-                          ticket.seat,
-                          value,
-                          parseInt(
-                            show?.variants.nodes.find((v) => v.id === value)
-                              ?.price || ''
-                          )
+        <ol className="flex-1">
+          {Array.from(groupedMetaData).map(([date, productIds]) => (
+            <li key={date} className="rounded-lg shadow-md bg-white p-4 mb-4">
+              <p>Date: {date}</p>
+              <ol className="rounded-lg border p-4 flex gap-4">
+                {productIds.map((productId) => (
+                  <li key={productId}>
+                    <button
+                      className={clsx(
+                        'rounded-lg border border-gray-200 p-4 hover:bg-black hover:text-white',
+                        show?.id === productId && 'bg-black text-white'
+                      )}
+                      onClick={() => {
+                        setShow(
+                          currentMovie?.products.nodes.find(
+                            (product) => product.id === productId
+                          ) ?? null
                         )
                       }}
-                    />
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-          <hr />
-          <p className="text-xl py-2">
-            合計金額:
-            {tickets
-              .reduce((acc, ticket) => acc + (ticket.price || 0), 0)
-              .toLocaleString('ja-JP', { style: 'currency', currency: 'JPY' })}
-          </p>
-        </div>
+                    >
+                      <strong className="font-bold text-lg">
+                        {metaData.get(productId)?.startHM}
+                      </strong>
+                      <p>~ {metaData.get(productId)?.endHM}</p>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </li>
+          ))}
+        </ol>
       </div>
-    </AppProvider>
+      <div className="flex flex-col gap-2 p-4 mx-auto">
+        <ul className="flex flex-col gap-2">
+          {tickets.map((ticket) => (
+            <li key={ticket.seat} className="flex items-center gap-4">
+              <p className="text-xl font-bold">{ticket.seat}</p>
+              <div className="flex items-center gap-4 flex-1">
+                <p className="text-lg font-bold leading-none">チケット種別</p>
+                {show && (
+                  <Select
+                    label=""
+                    value={ticket.type}
+                    labelInline
+                    options={[
+                      {
+                        label: '選択してください',
+                        value: '',
+                        disabled: true,
+                      },
+                      ...show?.variants.nodes.map((v) => ({
+                        label: v.title,
+                        value: v.id,
+                      })),
+                    ]}
+                    onChange={(value) => {
+                      modifyTicket(
+                        ticket.seat,
+                        value,
+                        parseInt(
+                          show?.variants.nodes.find((v) => v.id === value)
+                            ?.price || ''
+                        )
+                      )
+                    }}
+                  />
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <hr />
+        <p className="text-xl py-2">
+          合計金額:
+          {tickets
+            .reduce((acc, ticket) => acc + (ticket.price || 0), 0)
+            .toLocaleString('ja-JP', { style: 'currency', currency: 'JPY' })}
+        </p>
+        <hr />
+
+        <Modal
+          activator={
+            <button
+              className="bg-blue-500 text-white rounded-lg p-4 disabled:bg-gray-400 w-[40rem] mx-auto"
+              disabled={!isAllTicketsSet()}
+              onClick={toggleModal}
+            >
+              次へ
+            </button>
+          }
+          open={modal}
+          onClose={toggleModal}
+          title="会員確認"
+          // primaryAction={{
+          //   content: 'Add Instagram',
+          //   // onAction: handleChange,
+          // }}
+          // secondaryActions={[
+          //   {
+          //     content: 'Learn more',
+          //     onAction: toggleModal,
+          //   },
+          // ]}
+        >
+          <Modal.Section>
+            <div>
+              <Form
+                method="post"
+                action="/order/confirm"
+                className="flex flex-col gap-4"
+              >
+                <input
+                  type="email"
+                  value={email}
+                  className="p-2 border rounded-md"
+                  placeholder="メールを入力してください"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white rounded-lg p-4 disabled:bg-gray-400 px-16 py-4 mx-auto"
+                  disabled={!z.string().email().safeParse(email).success}
+                >
+                  同時に会員登録して購入
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white rounded-lg p-4 disabled:bg-gray-400 px-16 py-4 mx-auto"
+                >
+                  登録せずに購入
+                </button>
+                {/* All tickets information */}
+                <input
+                  type="hidden"
+                  name="tickets"
+                  value={JSON.stringify(tickets)}
+                />
+              </Form>
+            </div>
+          </Modal.Section>
+        </Modal>
+      </div>
+    </div>
   )
 }

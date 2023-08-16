@@ -6,6 +6,7 @@ import { useTicketsStore } from '~/stores'
 interface Ticket {
   seat: string
   type?: string
+  price?: number
 }
 const selectedStyles = ['selected']
 

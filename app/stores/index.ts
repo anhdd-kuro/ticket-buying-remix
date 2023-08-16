@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface Ticket {
+export interface Ticket {
   seat: string
   type?: string
   price?: number
@@ -41,6 +41,11 @@ export const useTicketsStore = create<{
     })
   },
   isAllTicketsSet: () => {
-    return get().tickets.every((ticket) => ticket.type)
+    const tickets = get().tickets
+
+    return (
+      tickets.length > 0 &&
+      tickets.every((ticket) => ticket.type && ticket.price)
+    )
   },
 }))

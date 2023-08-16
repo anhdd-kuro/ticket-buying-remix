@@ -5,16 +5,26 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react'
 import stylesheet from '~/tailwind.css'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
+import { AppProvider } from '@shopify/polaris'
 
 export const links = () => [
   { rel: 'stylesheet', href: stylesheet },
   { rel: 'stylesheet', href: polarisStyles },
 ]
 
+export async function loader() {
+  return {
+    polarisTranslations: require('@shopify/polaris/locales/en.json'),
+  }
+}
+
 export default function App() {
+  const { polarisTranslations } = useLoaderData()
+
   return (
     <html>
       <head>
@@ -24,7 +34,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <AppProvider i18n={polarisTranslations}>
+          <Outlet />
+        </AppProvider>
         <ScrollRestoration />
         <LiveReload />
         <Scripts />
