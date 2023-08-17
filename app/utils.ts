@@ -35,3 +35,6 @@ export function htmlDecode(input: string) {
     (match) => entities[match]
   )
 }
+
+// gid://shopify/DraftOrder/1126591037714 to id
+export const gidToId = (gid: string) => gid.split('/').pop()

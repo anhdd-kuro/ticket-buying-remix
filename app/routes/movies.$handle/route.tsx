@@ -1,4 +1,4 @@
-import { FormData, type LoaderArgs } from '@remix-run/node'
+import { type LoaderArgs } from '@remix-run/node'
 import { useOutletContext, useParams, Form } from '@remix-run/react'
 import type { Movie, MoviesContextData } from '../movies/route'
 import { useCallback, useMemo, useState } from 'react'
@@ -180,7 +180,7 @@ export default function () {
           }
           open={modal}
           onClose={toggleModal}
-          title="会員確認"
+          title="メール確認"
           // primaryAction={{
           //   content: 'Add Instagram',
           //   // onAction: handleChange,
@@ -199,6 +199,12 @@ export default function () {
                 action="/order/confirm"
                 className="flex flex-col gap-4"
               >
+                <p>
+                  メール登録はいかがですか <br />
+                  ・メールからお支払いを行うことができます
+                  <br />
+                  ・会員の方はメールを入力してください
+                </p>
                 <input
                   type="email"
                   value={email}
@@ -211,7 +217,7 @@ export default function () {
                   className="bg-blue-500 text-white rounded-lg p-4 disabled:bg-gray-400 px-16 py-4 mx-auto"
                   disabled={!z.string().email().safeParse(email).success}
                 >
-                  同時に会員登録して購入
+                  同時にアカウント登録して購入
                 </button>
                 <button
                   type="submit"

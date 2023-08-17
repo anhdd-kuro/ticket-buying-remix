@@ -1,24 +1,39 @@
 import { json, redirect } from '@remix-run/node'
 import type { LoaderArgs } from '@remix-run/node'
-import { useSearchParams } from '@remix-run/react'
+import { useLoaderData, useSearchParams } from '@remix-run/react'
 import type { Ticket } from '~/stores'
-import { htmlDecode, numberOrStringToJpy } from '~/utils'
+import { gidToId, htmlDecode, numberOrStringToJpy } from '~/utils'
 
 export async function loader({ request, params, context }: LoaderArgs) {
   console.log('------------------------------------------')
   console.log(request, 'request')
   console.log(params, 'params')
   console.log(context, 'context')
-  // const tickets = request.searc('tickets') || '{}'
-  // const parsedTickets = JSON.parse(tickets)
-  // console.log(parsedTickets, 'parsedTickets')
-  // console.log(request, 'request')
-  // console.log(params, 'params')
-  // const { tickets = '' } = params
-  // const parsedTickets = JSON.parse(tickets)
-  // console.log(parsedTickets, 'parsedTickets')
+  const orderId = new URL(request.url).searchParams.get('orderId')
+  console.log(orderId, 'orderId')
+  console.log(process.env)
+  const orderResult = await fetch(
+    `https://${process.env.SHOPIFY_SHOP_NAME}.com/admin/api/2021-07/draft_orders/${orderId}.json`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token':
+          process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN || '',
+      },
+    }
+  )
 
-  return {}
+  if (orderResult.status === 200) {
+    const data = await orderResult.json()
+    return {
+      order: data.draft_order,
+    }
+  }
+
+  return {
+    error: 'Something went wrong',
+  }
 }
 
 export const action = async ({ request, response }) => {
@@ -107,21 +122,37 @@ export const action = async ({ request, response }) => {
   const draftOrderResult = await apiResponse.json()
   console.log(draftOrderResult, 'draftOrderResult')
   const errors = draftOrderResult?.data?.draftOrderCreate?.userErrors
-  const orderId = draftOrderResult?.data?.draftOrderCreate?.draftOrder?.id
+  const orderGId = draftOrderResult?.data?.draftOrderCreate?.draftOrder?.id
+  const orderId = gidToId(orderGId)
   console.log(orderId, 'orderId')
 
-  return redirect(`/order/complete?orderId=${orderId}`)
+  return redirect(`/order/done?orderId=${orderId}`)
 }
 
 export default function () {
-  const [searchParams] = useSearchParams()
-  const orderId = searchParams.get('orderId')
+  // const [searchParams] = useSearchParams()
+  // const orderId = searchParams.get('orderId')
+  const { order } = useLoaderData()
 
   return (
-    <div className="p-8 w-2/3 mx-auto">
-      <h1 className="text-2xl font-bold">Order Complete</h1>
-      <p className="mt-4">Your order has been completed.</p>
-      <p className="mt-4">Order ID: {orderId}</p>
+    <div className="flex flex-col gap-4 p-8 w-2/3 mx-auto text-center leading-relaxed">
+      {order && (
+        <>
+          <h1 className="text-2xl font-bold">ご購入ありがとうございました</h1>
+          <p className="">注文番号: {order.id}</p>
+          <p className="text-lg font-bold">
+            10分以内でお支払いを行なってください !<br />
+            お支払いが完了するまで、チケット発券できません !
+          </p>
+          <p className="text-lg">
+            お支払い方法に関しては <br />
+            ・メールを入力した方はメールをご確認お願いします <br />
+            ・または窓口にてお支払いください
+            <br />
+            ・クーポンをお持ちの方はお支払いを行なう際にご利用できます
+          </p>
+        </>
+      )}
     </div>
   )
 }
