@@ -83,8 +83,17 @@ export default function () {
 
   return (
     <div>
-      <h1>{currentMovie?.title}</h1>
-      <div className="flex gap-2">
+      <div className="text-center">
+        <h1 className="font-bold text-xl">{currentMovie?.title}</h1>
+        <div className="w-[10rem] h-[10rem] mx-auto text-center">
+          <img
+            className="w-full h-full object-cover"
+            src={currentMovie?.thumbnail.image.url}
+            alt={currentMovie?.thumbnail.image.altText}
+          />
+        </div>
+      </div>
+      <div className="flex gap-2 mt-4">
         <div className="w-1/2">
           <SeatsSelect />
         </div>
