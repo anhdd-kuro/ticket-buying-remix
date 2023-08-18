@@ -49,6 +49,9 @@ export default function App() {
         <ScrollRestoration />
         <LiveReload />
         <Scripts />
+        <script type="text/javascript" src="/StarWebPrintBuilder.js"></script>
+        <script type="text/javascript" src="/StarWebPrintTrader.js"></script>
+        <script type="text/javascript" src="/printer.js"></script>
       </body>
     </html>
   )

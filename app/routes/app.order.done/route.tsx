@@ -2,6 +2,7 @@ import { json, redirect } from '@remix-run/node'
 import type { LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
+import ReactToPrint, { useReactToPrint } from 'react-to-print'
 import type { Ticket } from '~/stores'
 import { gidToId, htmlDecode } from '~/utils'
 import DRAFT_ORDER from '~/graphql/createDraftOrder.gql'
@@ -143,7 +144,6 @@ export default function () {
 
     html2canvas(componentRef.current).then((canvas) => {
       canvas.setAttribute('id', 'receipt-canvas')
-      console.log(canvas.style)
       canvas.style.display = 'none'
 
       const existingCanvas = document.getElementById('receipt-canvas')

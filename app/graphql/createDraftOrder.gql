@@ -1,0 +1,18 @@
+mutation createDraftOrder($input: DraftOrderInput!) {
+  draftOrderCreate(input: $input) {
+    draftOrder {
+      id
+      totalPrice
+      subtotalPrice
+      name
+      customer {
+        id
+        email
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}

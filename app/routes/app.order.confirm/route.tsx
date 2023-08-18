@@ -22,7 +22,7 @@ export async function action({ request }: ActionArgs) {
   }
   // console.log(tickets, 'tickets')
 
-  return redirect(`/order/confirm/?${searchParams}`, {})
+  return redirect(`/order/done?${searchParams}`, {})
 }
 
 export default function () {
@@ -39,7 +39,7 @@ export default function () {
     <OrderConfirm
       email={email}
       tickets={parsedTickets}
-      formAction={`${location.pathname}/done`}
+      formAction={`/order/done`}
     />
   )
 }
