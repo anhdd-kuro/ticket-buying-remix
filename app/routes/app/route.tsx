@@ -1,16 +1,8 @@
-import React from 'react'
 import { json } from '@remix-run/node'
 import { Link, Outlet, useLoaderData, useRouteError } from '@remix-run/react'
-import { AppProvider as PolarisAppProvider } from '@shopify/polaris'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 import { boundary } from '@shopify/shopify-app-remix'
-
 import { authenticate } from '../../shopify.server'
-import type {
-  LinkLikeComponent,
-  LinkLikeComponentProps,
-} from '@shopify/polaris/build/ts/src/utilities/link'
-
 export const links = () => [{ rel: 'stylesheet', href: polarisStyles }]
 
 export async function loader({ request }) {
@@ -23,7 +15,7 @@ export async function loader({ request }) {
 }
 
 export default function App() {
-  const { apiKey, polarisTranslations } = useLoaderData()
+  const { apiKey } = useLoaderData()
 
   return (
     <>
@@ -38,25 +30,10 @@ export default function App() {
         <Link to="/app/movies">チケット購入</Link>
         <Link to="/app/tickets">チケット発券</Link>
       </ui-nav-menu>
-      <PolarisAppProvider
-        i18n={polarisTranslations}
-        linkComponent={RemixPolarisLink as LinkLikeComponent}
-      >
-        <Outlet />
-      </PolarisAppProvider>
+      <Outlet />
     </>
   )
 }
-
-const RemixPolarisLink = React.forwardRef<
-  HTMLAnchorElement,
-  LinkLikeComponentProps
->((props, ref) => (
-  <Link {...props} to={props.url ?? props.to} ref={ref}>
-    {props.children}
-  </Link>
-))
-
 // Shopify needs Remix to catch some thrown responses, so that their headers are included in the response.
 export function ErrorBoundary() {
   return boundary.error(useRouteError())

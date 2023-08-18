@@ -1,4 +1,5 @@
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -9,7 +10,12 @@ import {
 } from '@remix-run/react'
 import stylesheet from '~/tailwind.css'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
-import { AppProvider } from '@shopify/polaris'
+import { AppProvider as PolarisAppProvider } from '@shopify/polaris'
+import type {
+  LinkLikeComponent,
+  LinkLikeComponentProps,
+} from '@shopify/polaris/build/ts/src/utilities/link'
+import { forwardRef } from 'react'
 
 export const links = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -34,9 +40,12 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <AppProvider i18n={polarisTranslations}>
+        <PolarisAppProvider
+          i18n={polarisTranslations}
+          linkComponent={RemixPolarisLink as LinkLikeComponent}
+        >
           <Outlet />
-        </AppProvider>
+        </PolarisAppProvider>
         <ScrollRestoration />
         <LiveReload />
         <Scripts />
@@ -44,3 +53,11 @@ export default function App() {
     </html>
   )
 }
+
+const RemixPolarisLink = forwardRef<HTMLAnchorElement, LinkLikeComponentProps>(
+  (props, ref) => (
+    <Link {...props} to={props.url ?? props.to} ref={ref}>
+      {props.children}
+    </Link>
+  )
+)
