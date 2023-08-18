@@ -10,14 +10,6 @@ export async function loader({ request, params, context }: LoaderArgs) {
   console.log(request, 'request')
   console.log(params, 'params')
   console.log(context, 'context')
-  // const tickets = request.searc('tickets') || '{}'
-  // const parsedTickets = JSON.parse(tickets)
-  // console.log(parsedTickets, 'parsedTickets')
-  // console.log(request, 'request')
-  // console.log(params, 'params')
-  // const { tickets = '' } = params
-  // const parsedTickets = JSON.parse(tickets)
-  // console.log(parsedTickets, 'parsedTickets')
 
   return {}
 }
