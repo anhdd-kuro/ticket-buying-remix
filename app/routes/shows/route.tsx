@@ -127,6 +127,7 @@ export default function App() {
               </p>
               <input
                 type="email"
+                name="email"
                 value={email}
                 onChange={(e) => setEmail(e.currentTarget.value)}
                 placeholder="xxx@yyy.com"

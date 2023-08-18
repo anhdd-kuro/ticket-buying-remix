@@ -13,6 +13,7 @@ export async function loader({ request, params, context }: LoaderArgs) {
 
   return {}
 }
+
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData()
   const searchParams = new URLSearchParams()

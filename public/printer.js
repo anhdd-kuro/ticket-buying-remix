@@ -1,5 +1,5 @@
-// const url = "http://172.16.30.47:8001/StarWebPRNT/SendMessage"
-const url = "http://localhost:8001/StarWebPRNT/SendMessage"
+const url = "http://172.16.30.47:8001/StarWebPRNT/SendMessage"
+// const url = "http://localhost:8001/StarWebPRNT/SendMessage"
 
 function print() {
 
@@ -7,7 +7,7 @@ function print() {
 
   if (canvas.getContext) {
     showNowPrinting();
-    alert('canvas.getContext')
+    alert('canvas.getContext:' + url)
     const context = canvas.getContext('2d');
 
     const trader = new StarWebPrintTrader({ url: url });

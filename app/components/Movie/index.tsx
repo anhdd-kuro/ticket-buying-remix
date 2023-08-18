@@ -209,6 +209,7 @@ export default function Movie({ movie }: Props) {
                 </p>
                 <input
                   type="email"
+                  name="email"
                   value={email}
                   className="p-2 border rounded-md"
                   placeholder="メールを入力してください"
