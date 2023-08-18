@@ -35,6 +35,7 @@ export default function App() {
         <Link to="/app" rel="home">
           Home
         </Link>
+        <Link to="/app/movies">チケット購入</Link>
         <Link to="/app/tickets">チケット発券</Link>
       </ui-nav-menu>
       <PolarisAppProvider

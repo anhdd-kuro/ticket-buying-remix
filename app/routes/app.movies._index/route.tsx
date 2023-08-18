@@ -10,5 +10,5 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function () {
   const { parsedData: movies } = useOutletContext<MoviesContextData>()
 
-  return <div>{movies && <Movies movies={movies} />}</div>
+  return <div className="">{movies && <Movies movies={movies} />}</div>
 }

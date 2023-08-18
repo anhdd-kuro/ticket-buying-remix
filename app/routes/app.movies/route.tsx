@@ -4,6 +4,7 @@ import type { MetaobjectResult } from '~/hooks'
 import { useMetaobjectParser } from '~/hooks'
 import GET_MOVIES from '~/graphql/getMovies.gql'
 import type { Movie } from '~/components/Movies'
+import { authenticate } from '~/shopify.server'
 
 export type MoviesContextData = {
   data: MetaobjectResult
@@ -11,22 +12,9 @@ export type MoviesContextData = {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-  if (!process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN)
-    return {
-      data: null,
-    }
+  const { admin } = await authenticate.admin(request)
 
-  const apiResponse = await fetch(
-    'https://krb-kuro.myshopify.com/admin/api/2023-07/graphql.json',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
-      },
-      body: JSON.stringify({ query: GET_MOVIES }),
-    }
-  )
+  const apiResponse = await admin.graphql(GET_MOVIES, {})
 
   const resData: { data: MetaobjectResult } = await apiResponse.json()
 

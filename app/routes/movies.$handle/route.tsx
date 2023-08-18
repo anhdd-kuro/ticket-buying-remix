@@ -1,12 +1,13 @@
 import { type LoaderArgs } from '@remix-run/node'
 import { useOutletContext, useParams, Form } from '@remix-run/react'
-import type { Movie, MoviesContextData } from '../movies/route'
+import type { MoviesContextData } from '../movies/route'
 import { useCallback, useMemo, useState } from 'react'
 import { SeatsSelect } from '~/components/SeatsSelect'
 import { useTicketsStore } from '~/stores'
 import { Modal, Select } from '@shopify/polaris'
 import clsx from 'clsx'
 import { z } from 'zod'
+import type { Movie } from '~/components/Movies'
 
 export async function loader({ request }: LoaderArgs) {
   // const url = new URL(request.url)

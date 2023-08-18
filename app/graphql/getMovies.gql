@@ -1,0 +1,36 @@
+query getMovies {
+  metaobjects(first: 20, type: "movies") {
+    nodes {
+      handle
+      id
+      fields {
+        key
+        value
+        references(first: 10) {
+          nodes {
+            ... on Product {
+              id
+              title
+            }
+            ... on Metaobject {
+              handle
+              id
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+        reference {
+          ... on MediaImage {
+            image {
+              altText
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
