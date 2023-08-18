@@ -1,4 +1,4 @@
-import { Link, useNavigation } from '@remix-run/react'
+import { Link, useLocation } from '@remix-run/react'
 
 export type Movie = {
   id: string
@@ -46,13 +46,14 @@ type Props = {
 }
 
 export default function Movies({ movies }: Props) {
-  const navigation = useNavigation()
+  const location = useLocation()
+  console.log(location)
 
   return (
     <div className="flex flex-wrap gap-4 container mx-auto p-8">
       {movies?.map((movie) => (
         <div key={movie.handle} className="w-1/4 relative hover:opacity-80">
-          <Link to={`${navigation.location}/${movie.handle}`}>
+          <Link to={`${location.pathname}/${movie.handle}`}>
             <div className="bg-white rounded-lg shadow-lg">
               <img
                 className="w-full h-48 object-cover object-center"

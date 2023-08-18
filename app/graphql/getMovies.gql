@@ -1,5 +1,5 @@
 query getMovies {
-  metaobjects(first: 20, type: "movies") {
+  metaobjects(first: 10, type: "movies") {
     nodes {
       handle
       id
@@ -11,6 +11,18 @@ query getMovies {
             ... on Product {
               id
               title
+              handle
+              metaData: metafield(key: "meta_data", namespace: "custom") {
+                key
+                value
+              }
+              variants: variants(first: 5) {
+                nodes {
+                  id
+                  title
+                  price
+                }
+              }
             }
             ... on Metaobject {
               handle

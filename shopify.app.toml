@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://gba-supervision-flags-gmbh.trycloudflare.com"
+application_url = "https://atmospheric-terminal-costa-submission.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects"
 
 [auth]
 redirect_urls = [
-  "https://gba-supervision-flags-gmbh.trycloudflare.com/auth/callback",
-  "https://gba-supervision-flags-gmbh.trycloudflare.com/auth/shopify/callback",
-  "https://gba-supervision-flags-gmbh.trycloudflare.com/api/auth/callback"
+  "https://atmospheric-terminal-costa-submission.trycloudflare.com/auth/callback",
+  "https://atmospheric-terminal-costa-submission.trycloudflare.com/auth/shopify/callback",
+  "https://atmospheric-terminal-costa-submission.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
