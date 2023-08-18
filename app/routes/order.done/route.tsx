@@ -1,6 +1,6 @@
 import { json, redirect } from '@remix-run/node'
 import type { LoaderArgs } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import type { Ticket } from '~/stores'
 import { gidToId, htmlDecode } from '~/utils'
@@ -12,9 +12,12 @@ export async function loader({ request, params, context }: LoaderArgs) {
   console.log(request, 'request')
   console.log(params, 'params')
   console.log(context, 'context')
+  console.log('request.url', new URL(request.url).searchParams.keys())
+
   const orderId = new URL(request.url).searchParams.get('orderId')
   console.log(orderId, 'orderId')
-  console.log(process.env)
+  // console.log('process.env', process.env)
+
   const orderResult = await fetch(
     `https://${process.env.SHOPIFY_SHOP_NAME}.com/admin/api/2021-07/draft_orders/${orderId}.json`,
     {
@@ -34,7 +37,10 @@ export async function loader({ request, params, context }: LoaderArgs) {
     }
   }
 
+  console.log(orderResult, 'orderResult')
+
   return {
+    status: orderResult.status,
     error: 'Something went wrong',
   }
 }
@@ -135,7 +141,7 @@ export const action = async ({ request, response }) => {
 export default function () {
   // const [searchParams] = useSearchParams()
   // const orderId = searchParams.get('orderId')
-  const { order } = useLoaderData()
+  const { order, error, status } = useLoaderData()
   const componentRef = useRef(null)
 
   useEffect(() => {
@@ -159,7 +165,7 @@ export default function () {
     <div>
       <div
         ref={componentRef}
-        className="flex flex-col gap-4 p-8 w-2/3 mx-auto text-center leading-relaxed"
+        className="flex flex-col gap-4 p-8 w-[500px] mx-auto text-center leading-relaxed"
       >
         {order && (
           <>
@@ -178,14 +184,26 @@ export default function () {
             </p>
           </>
         )}
+        {error && (
+          <p className="text-lg font-bold text-red-500">
+            Status: {status},{error}
+          </p>
+        )}
       </div>
-
-      <button
-        id="print-button"
-        className="block p-2 w-[20rem] bg-blue-500 text-white mx-auto"
-      >
-        レシート印刷
-      </button>
+      <div className="mt-8 flex justify-center flex-col items-center gap-4 text-center text-white font-bold">
+        <button
+          id="print-button"
+          className="block p-4 w-[20rem] bg-blue-500 mx-auto"
+        >
+          レシート印刷
+        </button>
+        <Link to="/" className="block p-4 w-[20rem] bg-gray-500">
+          ホームに戻る
+        </Link>
+        <Link to="/tickets" className="block p-4 w-[20rem] bg-slate-800">
+          チケット発券
+        </Link>
+      </div>
     </div>
   )
 }
