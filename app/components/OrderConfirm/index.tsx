@@ -4,10 +4,11 @@ import { numberOrStringToJpy } from '~/utils'
 
 type Props = {
   tickets: Ticket[]
+  formAction: string
   email?: string | null
 }
 
-const OrderConfirm = ({ tickets, email }: Props) => {
+const OrderConfirm = ({ tickets, email, formAction }: Props) => {
   return (
     <div className="p-8 w-2/3 mx-auto">
       <h1 className="text-2xl font-bold text-center">購入チケット確認</h1>
@@ -31,7 +32,7 @@ const OrderConfirm = ({ tickets, email }: Props) => {
         )}
       </p>
 
-      <Form method="post" action="/order/done">
+      <Form method="post" action={formAction}>
         <input name="email" type="email" value={email || ''} hidden readOnly />
         <input
           name="tickets"
@@ -42,7 +43,7 @@ const OrderConfirm = ({ tickets, email }: Props) => {
         />
         <button
           type="submit"
-          className="p-2 border rounded bg-[#626367] text-white"
+          className="p-2 border rounded bg-[#626367] text-white block mx-auto mt-4"
         >
           Create Draft Order ( 下書き注文を作成 )
         </button>

@@ -1,6 +1,6 @@
 import { redirect } from '@remix-run/node'
 import type { LoaderArgs, ActionArgs } from '@remix-run/node'
-import { useSearchParams } from '@remix-run/react'
+import { useLocation, useSearchParams } from '@remix-run/react'
 import type { Ticket } from '~/stores'
 import { jsonSchema } from '~/utils'
 import OrderConfirm from '~/components/OrderConfirm'
@@ -26,6 +26,8 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function () {
+  const location = useLocation()
+
   const [searchParams] = useSearchParams()
   const tickets = searchParams.get('tickets') || ''
   const isTicketValid = jsonSchema.safeParse(tickets).success
@@ -33,5 +35,11 @@ export default function () {
   const parsedTickets: Ticket[] = isTicketValid ? JSON.parse(tickets) : []
   const email = searchParams.get('email')
 
-  return <OrderConfirm email={email} tickets={parsedTickets} />
+  return (
+    <OrderConfirm
+      email={email}
+      tickets={parsedTickets}
+      formAction={`${location.pathname}/done`}
+    />
+  )
 }
