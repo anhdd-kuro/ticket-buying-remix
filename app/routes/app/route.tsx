@@ -5,7 +5,7 @@ import { AppProvider as PolarisAppProvider } from '@shopify/polaris'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 import { boundary } from '@shopify/shopify-app-remix'
 
-import { authenticate } from '../shopify.server'
+import { authenticate } from '../../shopify.server'
 import type {
   LinkLikeComponent,
   LinkLikeComponentProps,

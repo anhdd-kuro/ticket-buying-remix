@@ -1,7 +1,7 @@
 import { json } from '@remix-run/node'
 import { Page } from '@shopify/polaris'
 
-import { authenticate } from '../shopify.server'
+import { authenticate } from '../../shopify.server'
 import { TopMenu } from '~/components/TopMenu'
 
 export const loader = async ({ request }) => {
