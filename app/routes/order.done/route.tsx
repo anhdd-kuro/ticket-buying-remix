@@ -1,8 +1,10 @@
 import { json, redirect } from '@remix-run/node'
 import type { LoaderArgs } from '@remix-run/node'
-import { useLoaderData, useSearchParams } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
+import { useRef } from 'react'
+import ReactToPrint, { useReactToPrint } from 'react-to-print'
 import type { Ticket } from '~/stores'
-import { gidToId, htmlDecode, numberOrStringToJpy } from '~/utils'
+import { gidToId, htmlDecode } from '~/utils'
 
 export async function loader({ request, params, context }: LoaderArgs) {
   console.log('------------------------------------------')
@@ -133,9 +135,17 @@ export default function () {
   // const [searchParams] = useSearchParams()
   // const orderId = searchParams.get('orderId')
   const { order } = useLoaderData()
+  const componentRef = useRef(null)
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  })
 
   return (
-    <div className="flex flex-col gap-4 p-8 w-2/3 mx-auto text-center leading-relaxed">
+    <div
+      ref={componentRef}
+      className="flex flex-col gap-4 p-8 w-2/3 mx-auto text-center leading-relaxed"
+    >
       {order && (
         <>
           <h1 className="text-2xl font-bold">ご購入ありがとうございました</h1>
@@ -153,6 +163,14 @@ export default function () {
           </p>
         </>
       )}
+      <ReactToPrint content={() => componentRef.current}>
+        <button
+          onClick={handlePrint}
+          className="w-[20rem] mx-auto p-2 rounded-lg bg-blue-500 text-white"
+        >
+          印刷
+        </button>
+      </ReactToPrint>
     </div>
   )
 }

@@ -6,6 +6,10 @@ import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 import { boundary } from '@shopify/shopify-app-remix'
 
 import { authenticate } from '../shopify.server'
+import type {
+  LinkLikeComponent,
+  LinkLikeComponentProps,
+} from '@shopify/polaris/build/ts/src/utilities/link'
 
 export const links = () => [{ rel: 'stylesheet', href: polarisStyles }]
 
@@ -31,11 +35,11 @@ export default function App() {
         <Link to="/app" rel="home">
           Home
         </Link>
-        <Link to="/app/additional">Additional page</Link>
+        <Link to="/app/tickets">チケット発券</Link>
       </ui-nav-menu>
       <PolarisAppProvider
         i18n={polarisTranslations}
-        linkComponent={RemixPolarisLink}
+        linkComponent={RemixPolarisLink as LinkLikeComponent}
       >
         <Outlet />
       </PolarisAppProvider>
@@ -43,8 +47,10 @@ export default function App() {
   )
 }
 
-/** @type {any} */
-const RemixPolarisLink = React.forwardRef((/** @type {any} */ props, ref) => (
+const RemixPolarisLink = React.forwardRef<
+  HTMLAnchorElement,
+  LinkLikeComponentProps
+>((props, ref) => (
   <Link {...props} to={props.url ?? props.to} ref={ref}>
     {props.children}
   </Link>
