@@ -1,12 +1,11 @@
 // const url = "http://192.168.11.7:8001/StarWebPRNT/SendMessage"
-const url = "http://localhost:8001/StarWebPRNT/SendMessage"
+const url = "http://192.168.11.11/StarWebPRNT/SendMessage"
 
 function print() {
 
   const canvas = document.getElementById('receipt-canvas')
 
   if (canvas.getContext) {
-    showNowPrinting();
     alert('canvas.getContext:' + url)
     const context = canvas.getContext('2d');
 
@@ -39,7 +38,6 @@ function print() {
     }
 
     trader.onError = function (response) {
-      hideNowPrinting();
 
       var msg = '- onError -\n\n';
       msg += '\tStatus:' + response.status + '\n';
@@ -67,26 +65,10 @@ function print() {
       alert(e.message);
     }
   }
-
 }
 
-function showNowPrinting() {
-  // document.getElementById('overlay').style.display = "block";
-  // document.getElementById('nowPrintingWrapper').style.display = "table";
-}
-
-function hideNowPrinting() {
-  // document.getElementById('overlay').style.opacity = 0.0;
-  // document.getElementById('overlay').style.transition = "all 0.3s";
-  // intimer = setTimeout(function () {
-  //   document.getElementById('overlay').style.display = "none";
-  //   document.getElementById('overlay').style.opacity = 1;
-  //   clearTimeout(intimer);
-  // }, 300);
-  // document.getElementById('nowPrintingWrapper').style.display = "none";
-}
-
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
   const printBtn = document.getElementById('print-button');
+  alert('printBtn loaded')
   printBtn.addEventListener('click', print);
 });

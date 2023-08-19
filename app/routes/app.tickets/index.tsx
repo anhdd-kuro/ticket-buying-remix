@@ -25,13 +25,6 @@ export default function () {
     })
   }, [])
 
-  useEffect(() => {
-    // code
-    const script = document.createElement('script')
-    script.src = '/StarWebPrintTrader.js'
-    document.body.appendChild(script)
-  }, [])
-
   return (
     <div>
       <div ref={receiptRef} className="w-[500px] mx-auto">

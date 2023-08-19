@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://contrary-cm-covered-revision.trycloudflare.com"
+application_url = "https://describe-grace-olympus-refinance.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects"
 
 [auth]
 redirect_urls = [
-  "https://contrary-cm-covered-revision.trycloudflare.com/auth/callback",
-  "https://contrary-cm-covered-revision.trycloudflare.com/auth/shopify/callback",
-  "https://contrary-cm-covered-revision.trycloudflare.com/api/auth/callback"
+  "https://describe-grace-olympus-refinance.trycloudflare.com/auth/callback",
+  "https://describe-grace-olympus-refinance.trycloudflare.com/auth/shopify/callback",
+  "https://describe-grace-olympus-refinance.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

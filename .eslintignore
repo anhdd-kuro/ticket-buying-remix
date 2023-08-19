@@ -5,3 +5,5 @@ shopify-app-remix
 */*.yml
 .shopify
 printer.js
+StarWebPrintTrader.js
+StarWebPrintBuilder.js

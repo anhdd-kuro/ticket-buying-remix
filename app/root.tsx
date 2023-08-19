@@ -16,6 +16,7 @@ import type {
   LinkLikeComponentProps,
 } from '@shopify/polaris/build/ts/src/utilities/link'
 import { forwardRef } from 'react'
+import { ExternalScripts } from 'remix-utils'
 
 export const links = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -48,10 +49,8 @@ export default function App() {
         </PolarisAppProvider>
         <ScrollRestoration />
         <LiveReload />
+        <ExternalScripts />
         <Scripts />
-        <script type="text/javascript" src="/StarWebPrintBuilder.js"></script>
-        <script type="text/javascript" src="/StarWebPrintTrader.js"></script>
-        <script type="text/javascript" src="/printer.js"></script>
       </body>
     </html>
   )
@@ -64,3 +63,12 @@ const RemixPolarisLink = forwardRef<HTMLAnchorElement, LinkLikeComponentProps>(
     </Link>
   )
 )
+
+export const handle = {
+  scripts: () => [
+    { src: '/StarWebPrintBuilder.js' },
+    {
+      src: '/StarWebPrintTrader.js',
+    },
+  ],
+}
