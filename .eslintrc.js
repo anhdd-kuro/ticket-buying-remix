@@ -8,6 +8,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'plugin:prettier/recommended',
+    'plugin:import/typescript',
+    'plugin:tailwindcss/recommended',
   ],
   parser: '@typescript-eslint/parser',
   globals: {
@@ -19,5 +21,30 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 0,
     // allow any
     '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/consistent-type-imports': [
+      'error',
+      {
+        prefer: 'type-imports',
+        fixStyle: 'separate-type-imports',
+      },
+    ],
+    'import/no-anonymous-default-export': 'off',
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'index',
+          'sibling',
+          'parent',
+          'internal',
+          'external',
+          'builtin',
+          'object',
+          'type',
+        ],
+      },
+    ],
+    'tailwindcss/enforces-shorthand': 'error',
+    'tailwindcss/classnames-order': 'error',
   },
 }

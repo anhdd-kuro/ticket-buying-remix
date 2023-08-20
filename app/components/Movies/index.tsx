@@ -50,19 +50,19 @@ export default function Movies({ movies }: Props) {
   console.log(location)
 
   return (
-    <div className="flex flex-wrap gap-4 container mx-auto p-8">
+    <div className="container mx-auto flex flex-wrap gap-4 p-8">
       {movies?.map((movie) => (
-        <div key={movie.handle} className="w-1/4 relative hover:opacity-80">
+        <div key={movie.handle} className="relative w-1/4 hover:opacity-80">
           <Link to={`${location.pathname}/${movie.handle}`}>
-            <div className="bg-white rounded-lg shadow-lg">
+            <div className="rounded-lg bg-white shadow-lg">
               <img
-                className="w-full h-48 object-cover object-center"
+                className="h-48 w-full object-cover object-center"
                 // @ts-ignore-next-line
                 src={movie.thumbnail?.image.url || ''}
                 alt={movie.thumbnail?.image.altText || movie.title}
               />
               <div className="p-4">
-                <h2 className="text-gray-900 font-bold text-2xl mb-2">
+                <h2 className="mb-2 text-2xl font-bold text-gray-900">
                   {movie.title}
                 </h2>
                 {/* <div dangerouslySetInnerHTML={{ __html: movie.description }} /> */}

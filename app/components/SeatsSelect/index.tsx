@@ -1,7 +1,7 @@
-import { useCallback, useEffect } from 'react'
 import { Seat } from '../icons'
 import { toggleCSSclasses } from '~/utils'
 import { useTicketsStore } from '~/stores'
+import { useCallback, useEffect } from 'react'
 
 interface Ticket {
   seat: string

@@ -1,3 +1,5 @@
+import { loginErrorMessage } from './error.server'
+import { login } from '../../shopify.server'
 import { useState } from 'react'
 import { json } from '@remix-run/node'
 import {
@@ -12,9 +14,6 @@ import {
 
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
-
-import { login } from '../../shopify.server'
-import { loginErrorMessage } from './error.server'
 
 export const links = () => [{ rel: 'stylesheet', href: polarisStyles }]
 

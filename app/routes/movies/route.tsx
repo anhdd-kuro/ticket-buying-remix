@@ -1,8 +1,8 @@
-import type { LoaderArgs } from '@remix-run/node'
-import { Outlet, useLoaderData, useMatches } from '@remix-run/react'
-import type { MetaobjectResult } from '~/hooks'
 import { useMetaobjectParser } from '~/hooks'
 import GET_MOVIES from '~/graphql/getMovies.gql'
+import { Outlet, useLoaderData, useMatches } from '@remix-run/react'
+import type { LoaderArgs } from '@remix-run/node'
+import type { MetaobjectResult } from '~/hooks'
 import type { Movie } from '~/components/Movies'
 
 export type MoviesContextData = {

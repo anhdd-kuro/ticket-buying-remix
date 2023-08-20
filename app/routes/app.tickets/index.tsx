@@ -1,7 +1,7 @@
-import html2canvas from 'html2canvas'
-import { useEffect, useRef } from 'react'
 import MovieTicket from '~/components/MovieTicket'
 import { print } from '~/printer'
+import html2canvas from 'html2canvas'
+import { useEffect, useRef } from 'react'
 
 export default function () {
   const receiptRef = useRef(null)
@@ -27,12 +27,12 @@ export default function () {
 
   return (
     <div>
-      <div ref={receiptRef} className="w-[500px] mx-auto">
+      <div ref={receiptRef} className="mx-auto w-[500px]">
         <MovieTicket />
       </div>
       <button
         id="print-button"
-        className="block p-4 w-[20rem] bg-blue-500 mx-auto text-white mt-4"
+        className="mx-auto mt-4 block w-[20rem] bg-blue-500 p-4 text-white"
         onClick={print}
       >
         Print

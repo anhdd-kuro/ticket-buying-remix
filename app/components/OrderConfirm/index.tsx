@@ -1,6 +1,6 @@
+import { numberOrStringToJpy } from '~/utils'
 import { Form } from '@remix-run/react'
 import type { Ticket } from '~/stores'
-import { numberOrStringToJpy } from '~/utils'
 
 type Props = {
   tickets: Ticket[]
@@ -10,14 +10,14 @@ type Props = {
 
 const OrderConfirm = ({ tickets, email, formAction }: Props) => {
   return (
-    <div className="p-8 w-2/3 mx-auto">
-      <h1 className="text-2xl font-bold text-center">購入チケット確認</h1>
+    <div className="mx-auto w-2/3 p-8">
+      <h1 className="text-center text-2xl font-bold">購入チケット確認</h1>
       <p className="text-lg font-bold">Email: {email}</p>
-      <ul className=" flex flex-col gap-4 mt-16">
+      <ul className=" mt-16 flex flex-col gap-4">
         {tickets.map((ticket) => (
           <li
             key={ticket.seat}
-            className="p-4 bg-gray-200 rounded-lg shadow-md"
+            className="rounded-lg bg-gray-200 p-4 shadow-md"
           >
             <p>{ticket.seat}</p>
             <p>{ticket.type}</p>
@@ -25,7 +25,7 @@ const OrderConfirm = ({ tickets, email, formAction }: Props) => {
           </li>
         ))}
       </ul>
-      <p className="text-xl py-2 mt-4">
+      <p className="mt-4 py-2 text-xl">
         合計金額:
         {numberOrStringToJpy(
           tickets.reduce((acc, ticket) => acc + (ticket.price || 0), 0)
@@ -43,7 +43,7 @@ const OrderConfirm = ({ tickets, email, formAction }: Props) => {
         />
         <button
           type="submit"
-          className="p-2 border rounded bg-[#626367] text-white block mx-auto mt-4"
+          className="mx-auto mt-4 block rounded border bg-[#626367] p-2 text-white"
         >
           Create Draft Order ( 下書き注文を作成 )
         </button>

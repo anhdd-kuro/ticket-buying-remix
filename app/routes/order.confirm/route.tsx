@@ -1,9 +1,9 @@
-import { redirect } from '@remix-run/node'
-import type { LoaderArgs, ActionArgs } from '@remix-run/node'
-import { useLocation, useSearchParams } from '@remix-run/react'
-import type { Ticket } from '~/stores'
 import { jsonSchema } from '~/utils'
 import OrderConfirm from '~/components/OrderConfirm'
+import { redirect } from '@remix-run/node'
+import { useLocation, useSearchParams } from '@remix-run/react'
+import type { LoaderArgs, ActionArgs } from '@remix-run/node'
+import type { Ticket } from '~/stores'
 
 export async function loader({ request, params, context }: LoaderArgs) {
   console.log('------------------------------------------')

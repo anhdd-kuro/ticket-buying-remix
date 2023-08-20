@@ -1,7 +1,7 @@
-import { json, redirect } from '@remix-run/node'
-import { login } from '../../shopify.server'
 import indexStyles from './style.css'
+import { login } from '../../shopify.server'
 import { TopMenu } from '~/components/TopMenu'
+import { json, redirect } from '@remix-run/node'
 
 export const links = () => [{ rel: 'stylesheet', href: indexStyles }]
 

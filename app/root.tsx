@@ -1,3 +1,4 @@
+import stylesheet from '~/tailwind.css'
 import {
   Link,
   Links,
@@ -8,15 +9,14 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react'
-import stylesheet from '~/tailwind.css'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 import { AppProvider as PolarisAppProvider } from '@shopify/polaris'
+import { forwardRef } from 'react'
+import { ExternalScripts } from 'remix-utils'
 import type {
   LinkLikeComponent,
   LinkLikeComponentProps,
 } from '@shopify/polaris/build/ts/src/utilities/link'
-import { forwardRef } from 'react'
-import { ExternalScripts } from 'remix-utils'
 
 export const links = () => [
   { rel: 'stylesheet', href: stylesheet },

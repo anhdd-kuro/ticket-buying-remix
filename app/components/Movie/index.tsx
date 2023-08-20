@@ -1,7 +1,7 @@
-import { Form } from '@remix-run/react'
-import { useCallback, useMemo, useState } from 'react'
 import { SeatsSelect } from '~/components/SeatsSelect'
 import { useTicketsStore } from '~/stores'
+import { Form } from '@remix-run/react'
+import { useCallback, useMemo, useState } from 'react'
 import { Modal, Select } from '@shopify/polaris'
 import clsx from 'clsx'
 import { z } from 'zod'
@@ -77,24 +77,24 @@ export default function Movie({ movie }: Props) {
   return (
     <div>
       <div className="text-center">
-        <h1 className="font-bold text-xl">{movie?.title}</h1>
-        <div className="w-[10rem] h-[10rem] mx-auto text-center">
+        <h1 className="text-xl font-bold">{movie?.title}</h1>
+        <div className="mx-auto h-[10rem] w-[10rem] text-center">
           <img
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             src={movie?.thumbnail.image.url}
             alt={movie?.thumbnail.image.altText}
           />
         </div>
       </div>
-      <div className="flex gap-2 mt-4">
+      <div className="mt-4 flex gap-2">
         <div className="w-1/2">
           <SeatsSelect />
         </div>
         <ol className="flex-1">
           {Array.from(groupedMetaData).map(([date, productIds]) => (
-            <li key={date} className="rounded-lg shadow-md bg-white p-4 mb-4">
+            <li key={date} className="mb-4 rounded-lg bg-white p-4 shadow-md">
               <p>Date: {date}</p>
-              <ol className="rounded-lg border p-4 flex gap-4">
+              <ol className="flex gap-4 rounded-lg border p-4">
                 {productIds.map((productId) => (
                   <li key={productId}>
                     <button
@@ -110,7 +110,7 @@ export default function Movie({ movie }: Props) {
                         )
                       }}
                     >
-                      <strong className="font-bold text-lg">
+                      <strong className="text-lg font-bold">
                         {metaData.get(productId)?.startHM}
                       </strong>
                       <p>~ {metaData.get(productId)?.endHM}</p>
@@ -122,12 +122,12 @@ export default function Movie({ movie }: Props) {
           ))}
         </ol>
       </div>
-      <div className="flex flex-col gap-2 p-4 mx-auto">
+      <div className="mx-auto flex flex-col gap-2 p-4">
         <ul className="flex flex-col gap-2">
           {tickets.map((ticket) => (
             <li key={ticket.seat} className="flex items-center gap-4">
               <p className="text-xl font-bold">{ticket.seat}</p>
-              <div className="flex items-center gap-4 flex-1">
+              <div className="flex flex-1 items-center gap-4">
                 <p className="text-lg font-bold leading-none">チケット種別</p>
                 {show && (
                   <Select
@@ -162,7 +162,7 @@ export default function Movie({ movie }: Props) {
           ))}
         </ul>
         <hr />
-        <p className="text-xl py-2">
+        <p className="py-2 text-xl">
           合計金額:
           {tickets
             .reduce((acc, ticket) => acc + (ticket.price || 0), 0)
@@ -173,7 +173,7 @@ export default function Movie({ movie }: Props) {
         <Modal
           activator={
             <button
-              className="bg-blue-500 text-white rounded-lg p-4 disabled:bg-gray-400 w-[40rem] mx-auto"
+              className="mx-auto w-[40rem] rounded-lg bg-blue-500 p-4 text-white disabled:bg-gray-400"
               disabled={!isAllTicketsSet()}
               onClick={toggleModal}
             >
@@ -211,20 +211,20 @@ export default function Movie({ movie }: Props) {
                   type="email"
                   name="email"
                   value={email}
-                  className="p-2 border rounded-md"
+                  className="rounded-md border p-2"
                   placeholder="メールを入力してください"
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white rounded-lg p-4 disabled:bg-gray-400 px-16 py-4 mx-auto"
+                  className="mx-auto rounded-lg bg-blue-500 p-4 px-16 text-white disabled:bg-gray-400"
                   disabled={!z.string().email().safeParse(email).success}
                 >
                   同時にアカウント登録して購入
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white rounded-lg p-4 disabled:bg-gray-400 px-16 py-4 mx-auto"
+                  className="mx-auto rounded-lg bg-blue-500 p-4 px-16 text-white disabled:bg-gray-400"
                 >
                   登録せずに購入
                 </button>

@@ -1,8 +1,8 @@
+import { authenticate, sessionStorage } from '~/shopify.server'
 import { json, redirect } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
 
 import { shopifyApp } from '@shopify/shopify-app-remix'
-import { authenticate, sessionStorage } from '~/shopify.server'
 import { shopifyApi, LATEST_API_VERSION } from '@shopify/shopify-api'
 import { restResources } from '@shopify/shopify-api/rest/admin/2023-07'
 

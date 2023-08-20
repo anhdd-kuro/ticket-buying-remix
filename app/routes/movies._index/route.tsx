@@ -1,6 +1,6 @@
-import type { LoaderArgs } from '@remix-run/node'
-import { useOutletContext } from '@remix-run/react'
 import Movies from '~/components/Movies'
+import { useOutletContext } from '@remix-run/react'
+import type { LoaderArgs } from '@remix-run/node'
 import type { MoviesContextData } from '../movies/route'
 
 export const loader = async ({ request }: LoaderArgs) => {

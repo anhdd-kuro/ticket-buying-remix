@@ -24,7 +24,7 @@ module.exports = {
     v2_normalizeFormMethod: true,
     v2_routeConvention: true,
     v2_dev: {
-      port: process.env.HMR_SERVER_PORT || 8002,
+      port: process.env.HMR_SERVER_PORT || '8002',
     },
   },
   tailwind: true,

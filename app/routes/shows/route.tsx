@@ -107,7 +107,7 @@ export default function App() {
           <input value={email} hidden />
         </Form>
         <button
-          className="p-2 border rounded bg-[#626367] text-white"
+          className="rounded border bg-[#626367] p-2 text-white"
           onClick={() => setOpenModal(true)}
         >
           Create Draft Order ( 下書き注文を作成 )
@@ -118,8 +118,8 @@ export default function App() {
           onClose={() => setOpenModal(false)}
         >
           <Modal.Section>
-            <div className="flex justify-center items-center flex-col gap-y-4">
-              <p className="text-xl text-center">
+            <div className="flex flex-col items-center justify-center gap-y-4">
+              <p className="text-center text-xl">
                 同時に会員登録しますか <br />
                 <span className="text-sm">
                   *購入後に登録の招待メールをお送りいたします
@@ -131,38 +131,38 @@ export default function App() {
                 value={email}
                 onChange={(e) => setEmail(e.currentTarget.value)}
                 placeholder="xxx@yyy.com"
-                className="p-2 border rounded w-full"
+                className="w-full rounded border p-2"
               />
               <button
                 onClick={() => formRef.current?.submit()}
-                className="p-2 border rounded disabled:opacity-50"
+                className="rounded border p-2 disabled:opacity-50"
                 disabled={!email}
               >
                 入力したメールで購入する
               </button>
               <button
                 onClick={() => formRef.current?.submit()}
-                className="p-2 border rounded"
+                className="rounded border p-2"
               >
                 登録せずに購入する
               </button>
             </div>
           </Modal.Section>
         </Modal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.products?.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg overflow-hidden shadow-md"
+              className="overflow-hidden rounded-lg bg-white shadow-md"
             >
               {/* <a href={`/shows/${product.handle}`}></a> */}
               <img
                 src={product.image ? product.image.src : ''}
                 alt={product.title}
-                className="w-full h-48 object-cover"
+                className="h-48 w-full object-cover"
               />
               <div className="p-4 text-gray-600">
-                <h2 className="text-lg font-medium mb-2">{product.title}</h2>
+                <h2 className="mb-2 text-lg font-medium">{product.title}</h2>
               </div>
             </div>
           ))}

@@ -1,12 +1,12 @@
+import { gidToId, htmlDecode } from '~/utils'
+import DRAFT_ORDER from '~/graphql/createDraftOrder.gql'
 import { json, redirect } from '@remix-run/node'
-import type { LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import ReactToPrint, { useReactToPrint } from 'react-to-print'
-import type { Ticket } from '~/stores'
-import { gidToId, htmlDecode } from '~/utils'
-import DRAFT_ORDER from '~/graphql/createDraftOrder.gql'
 import html2canvas from 'html2canvas'
+import type { Ticket } from '~/stores'
+import type { LoaderArgs } from '@remix-run/node'
 
 export async function loader({ request, params, context }: LoaderArgs) {
   console.log('------------------------------------------')
@@ -159,7 +159,7 @@ export default function () {
     <div>
       <div
         ref={componentRef}
-        className="flex flex-col gap-4 p-8 w-2/3 mx-auto text-center leading-relaxed"
+        className="mx-auto flex w-2/3 flex-col gap-4 p-8 text-center leading-relaxed"
       >
         {order && (
           <>
@@ -182,7 +182,7 @@ export default function () {
 
       <button
         id="print-button"
-        className="block p-2 w-[20rem] bg-blue-500 text-white mx-auto"
+        className="mx-auto block w-[20rem] bg-blue-500 p-2 text-white"
       >
         レシート印刷
       </button>

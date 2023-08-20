@@ -1,8 +1,7 @@
-import { json } from '@remix-run/node'
-import { Page } from '@shopify/polaris'
-
 import { authenticate } from '../../shopify.server'
 import { TopMenu } from '~/components/TopMenu'
+import { json } from '@remix-run/node'
+import { Page } from '@shopify/polaris'
 
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request)

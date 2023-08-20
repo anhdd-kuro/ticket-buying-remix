@@ -1,7 +1,7 @@
+import Movie from '~/components/Movie'
 import { type LoaderArgs } from '@remix-run/node'
 import { useOutletContext, useParams } from '@remix-run/react'
 import type { MoviesContextData } from '../movies/route'
-import Movie from '~/components/Movie'
 
 export async function loader({ request }: LoaderArgs) {
   // const url = new URL(request.url)
