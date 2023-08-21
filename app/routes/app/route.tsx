@@ -29,6 +29,7 @@ export default function App() {
         </Link>
         <Link to="/app/movies">チケット購入</Link>
         <Link to="/app/tickets">チケット発券</Link>
+        <Link to="/app/reports">分析</Link>
       </ui-nav-menu>
       <Outlet />
     </>

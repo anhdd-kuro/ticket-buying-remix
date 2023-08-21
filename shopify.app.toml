@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://adelaide-producers-physician-readily.trycloudflare.com"
+application_url = "https://page-hungry-if-achieving.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects"
 
 [auth]
 redirect_urls = [
-  "https://adelaide-producers-physician-readily.trycloudflare.com/auth/callback",
-  "https://adelaide-producers-physician-readily.trycloudflare.com/auth/shopify/callback",
-  "https://adelaide-producers-physician-readily.trycloudflare.com/api/auth/callback"
+  "https://page-hungry-if-achieving.trycloudflare.com/auth/callback",
+  "https://page-hungry-if-achieving.trycloudflare.com/auth/shopify/callback",
+  "https://page-hungry-if-achieving.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -20,6 +20,7 @@ export default function () {
       useCORS: true,
     }).then((canvas) => {
       canvas.setAttribute('id', 'receipt-canvas')
+      canvas.style.display = 'none'
       console.log(canvas.style)
 
       const existingCanvas = document.getElementById('receipt-canvas')

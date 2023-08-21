@@ -62,7 +62,7 @@ export const action = async ({ request, response }) => {
     originalUnitPrice: ticket.price,
     quantity: 1,
     taxable: true,
-    variantId: ticket.type,
+    variantId: ticket.type?.id,
   }))
 
   const apiResponse = await fetch(

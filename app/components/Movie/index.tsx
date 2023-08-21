@@ -132,7 +132,7 @@ export default function Movie({ movie }: Props) {
                 {show && (
                   <Select
                     label=""
-                    value={ticket.type}
+                    value={ticket.type?.id}
                     labelInline
                     options={[
                       {
@@ -148,7 +148,12 @@ export default function Movie({ movie }: Props) {
                     onChange={(value) => {
                       modifyTicket(
                         ticket.seat,
-                        value,
+                        {
+                          id: value,
+                          title:
+                            show?.variants.nodes.find((v) => v.id === value)
+                              ?.title || '',
+                        },
                         parseInt(
                           show?.variants.nodes.find((v) => v.id === value)
                             ?.price || ''

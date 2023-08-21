@@ -2,7 +2,10 @@ import { create } from 'zustand'
 
 export interface Ticket {
   seat: string
-  type?: string
+  type?: {
+    id: string
+    title: string
+  }
   price?: number
 }
 
@@ -10,7 +13,7 @@ export const useTicketsStore = create<{
   tickets: Ticket[]
   getTicketIndexBySeat: (seat: string) => number
   toggleTicketBySeat: (seat: string) => void
-  modifyTicket: (seat: string, type: string, price?: number) => void
+  modifyTicket: (seat: string, type: Ticket['type'], price?: number) => void
   isAllTicketsSet: () => boolean
 }>((set, get) => ({
   tickets: [] as Ticket[],
@@ -29,7 +32,7 @@ export const useTicketsStore = create<{
       })
     }
   },
-  modifyTicket: (seat: string, type: string, price?: number) => {
+  modifyTicket: (seat: string, type: Ticket['type'], price?: number) => {
     const ticketIndex = get().getTicketIndexBySeat(seat)
     if (ticketIndex === -1) {
       return

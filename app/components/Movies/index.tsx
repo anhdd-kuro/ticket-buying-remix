@@ -50,9 +50,9 @@ export default function Movies({ movies }: Props) {
   console.log(location)
 
   return (
-    <div className="container mx-auto flex flex-wrap gap-4 p-8">
+    <div className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 p-8">
       {movies?.map((movie) => (
-        <div key={movie.handle} className="relative w-1/4 hover:opacity-80">
+        <div key={movie.handle} className="relative hover:opacity-80">
           <Link to={`${location.pathname}/${movie.handle}`}>
             <div className="rounded-lg bg-white shadow-lg">
               <img

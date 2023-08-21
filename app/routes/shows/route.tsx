@@ -104,13 +104,14 @@ export default function App() {
     <PolarisAppProvider i18n={require('@shopify/polaris/locales/en.json')}>
       <div className="index">
         <Form ref={formRef} action="/shows" method="POST" className="mb-4">
-          <input value={email} hidden />
+          <input value={email} hidden name="email" />
         </Form>
         <button
           className="rounded border bg-[#626367] p-2 text-white"
           onClick={() => setOpenModal(true)}
         >
-          Create Draft Order ( 下書き注文を作成 )
+          {/* Create Draft Order ( 下書き注文を作成 ) */}
+          購入確定
         </button>
         <Modal
           open={openModal}
