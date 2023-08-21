@@ -4,6 +4,7 @@
   "scripts": {
     "build": "NODE_ENV=production remix build",
     "predev": "prisma generate && prisma migrate deploy",
+    "prebuild": "prisma generate && prisma migrate deploy",
     "dev": "run-p dev:svg dev:remix",
     "icons": "npx @svgr/cli --out-dir app/components/icons -- app/icons",
     "icons:watch": "npm-watch icons",
