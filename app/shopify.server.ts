@@ -7,6 +7,7 @@ import {
   LATEST_API_VERSION,
 } from '@shopify/shopify-app-remix'
 import { PrismaSessionStorage } from '@shopify/shopify-app-session-storage-prisma'
+import { PostgreSQLSessionStorage } from '@shopify/shopify-app-session-storage-postgresql'
 import { restResources } from '@shopify/shopify-api/rest/admin/2023-07'
 import { shopifyApi } from '@shopify/shopify-api'
 
