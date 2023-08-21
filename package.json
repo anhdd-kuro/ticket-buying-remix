@@ -2,9 +2,8 @@
   "name": "ticket-buying-remix",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production remix build",
+    "build": "NODE_ENV=production remix build && yarn setup",
     "predev": "prisma generate && prisma migrate deploy",
-    "prebuild": "prisma generate && prisma migrate deploy",
     "dev": "run-p dev:svg dev:remix",
     "icons": "npx @svgr/cli --out-dir app/components/icons -- app/icons",
     "icons:watch": "npm-watch icons",
