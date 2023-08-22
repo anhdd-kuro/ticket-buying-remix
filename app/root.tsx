@@ -14,6 +14,7 @@ import { AppProvider as PolarisAppProvider } from '@shopify/polaris'
 import { forwardRef } from 'react'
 import { ExternalScripts } from 'remix-utils'
 import { json } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
 import type {
   LinkLikeComponent,
   LinkLikeComponentProps,
@@ -34,8 +35,13 @@ const isAuthorized = (request: Request) => {
   return username === 'admin' && password === 'password'
 }
 
-export async function loader({ request }) {
+export async function loader({ request }: LoaderArgs) {
   const polarisTranslations = await require('@shopify/polaris/locales/en.json')
+  if (request.url.includes('app'))
+    return json({
+      authorized: true,
+      polarisTranslations,
+    })
 
   if (isAuthorized(request)) {
     return json({

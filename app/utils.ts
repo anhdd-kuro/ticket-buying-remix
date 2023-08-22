@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+export const range = (start: number, end: number, step = 1) =>
+  Array.from({ length: (end - start) / step + 1 }, (_, i) => start + i * step)
+
 export const toggleCSSclasses = (el, ...cls: string[]) =>
   cls.map((cl) => el.classList.toggle(cl))
 

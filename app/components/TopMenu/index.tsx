@@ -13,7 +13,7 @@ export const TopMenu = ({ prefix = '' }: { prefix?: string }) => {
         to={`${prefix}/tickets`}
         className="w-[30rem] rounded-lg bg-blue-400 p-6 text-center text-2xl font-bold text-white"
       >
-        チケット発券
+        購入済み チケット受け取り
       </Link>
     </div>
   )
