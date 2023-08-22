@@ -1,4 +1,6 @@
-import { json, redirect } from '@remix-run/node'
+import { print } from '~/printer'
+import { useCanvas } from '~/hooks'
+import { Link, useLoaderData } from '@remix-run/react'
 
 export async function loader({ request }) {
   // get form data in remix
@@ -7,9 +9,9 @@ export async function loader({ request }) {
   const emailOrPhone = formData.get('emailOrPhone')
   const orderId = formData.get('orderId')
 
-  if (!emailOrPhone || !orderId) {
-    return redirect('/tickets', {})
-  }
+  // if (!emailOrPhone || !orderId) {
+  //   return redirect('/tickets', {})
+  // }
 
   // get ticket data from db
   const orderResponse = await fetch(
@@ -25,19 +27,71 @@ export async function loader({ request }) {
   )
   console.log('orderResponse', orderResponse)
 
-  // if (orderResponse.status !== 200) {
-  //   return redirect('/tickets', {})
-  // }
+  if (orderResponse.status !== 200) {
+    return {
+      order: null,
+      errors: "Couldn't find order",
+    }
+  }
 
   const orderParse = await orderResponse.json()
+  if (orderParse.errors)
+    return {
+      order: null,
+      errors: orderParse.errors,
+    }
+
   const orderData = orderParse.order
-  console.log('orderData', orderParse)
+
+  if (orderData.email !== emailOrPhone && orderData.phone !== emailOrPhone)
+    return {
+      order: null,
+      errors: "Couldn't find order",
+    }
 
   return {
+    errors: null,
     order: orderData,
   }
 }
 
 export default function () {
-  return <div className="p-16"></div>
+  const { order, errors } = useLoaderData<typeof loader>()
+  console.log(order)
+
+  const { elmRef } = useCanvas()
+
+  return (
+    <div className="p-16">
+      {errors && <p className="text-red-500">{errors}</p>}
+      {order && (
+        <div ref={elmRef}>
+          <ul className="flex flex-col items-center gap-4">
+            {order.line_items.map((item) => (
+              <li key={item.id} className="rounded border p-4">
+                <p className="text-xl font-bold">{item.name}</p>
+                <p>
+                  座席:{' '}
+                  {item.properties.find((prop) => prop.name === 'seat')?.value}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <button
+            id="print-button"
+            className="mx-auto mt-8 block w-[20rem] rounded bg-gray-500 p-4 text-white"
+            onClick={print}
+          >
+            チケット印刷
+          </button>
+        </div>
+      )}
+      <Link
+        to="/"
+        className="mt-16 inline-block w-[15rem] rounded bg-gray-400 p-4 text-center font-bold text-white"
+      >
+        TOPに戻る
+      </Link>
+    </div>
+  )
 }
