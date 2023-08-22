@@ -31,7 +31,7 @@ export async function loader({ request }) {
 
   const orderParse = await orderResponse.json()
   const orderData = orderParse.order
-  console.log('orderData', orderData)
+  console.log('orderData', orderParse)
 
   return {
     order: orderData,
