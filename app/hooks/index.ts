@@ -107,5 +107,6 @@ export const useCanvas = (id?: string) => {
 
   return {
     elmRef,
+    elmId: canvasId,
   }
 }

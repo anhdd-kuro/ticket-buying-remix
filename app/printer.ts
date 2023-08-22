@@ -1,7 +1,7 @@
 const url = 'http://192.168.11.11/StarWebPRNT/SendMessage'
 
-export function print() {
-  const canvas = document.getElementById('canvas') as HTMLCanvasElement
+export function print(id: string) {
+  const canvas = document.getElementById(id) as HTMLCanvasElement
 
   if (canvas?.getContext) {
     alert('canvas.getContext:' + url)

@@ -59,14 +59,14 @@ export default function () {
   const { order, errors } = useLoaderData<typeof loader>()
   console.log(order)
 
-  const { elmRef } = useCanvas()
+  const { elmRef, elmId } = useCanvas()
 
   return (
     <div className="p-16">
       {errors && <p className="text-red-500">{errors}</p>}
       {order && (
-        <div ref={elmRef}>
-          <ul className="flex flex-col items-center gap-4">
+        <div>
+          <ul ref={elmRef} className="flex flex-col items-center gap-4">
             {order.line_items.map((item) => (
               <li key={item.id} className="rounded border p-4">
                 <p className="text-xl font-bold">{item.name}</p>
@@ -80,7 +80,7 @@ export default function () {
           <button
             id="print-button"
             className="mx-auto mt-8 block w-[20rem] rounded bg-gray-500 p-4 text-white"
-            onClick={print}
+            onClick={() => print(elmId)}
           >
             チケット印刷
           </button>
