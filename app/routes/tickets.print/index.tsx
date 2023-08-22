@@ -65,7 +65,7 @@ export default function () {
     <div className="p-16">
       {errors && <p className="text-red-500">{errors}</p>}
       {order && (
-        <div>
+        <div className="flex flex-col items-center">
           <ul ref={elmRef} className="flex flex-col items-center gap-4">
             {order.line_items.map((item) => (
               <li key={item.id} className="rounded border p-4">
