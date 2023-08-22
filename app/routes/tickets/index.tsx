@@ -21,7 +21,7 @@ export default function () {
         className="mx-auto mt-4 block w-[20rem] bg-blue-500 p-4 text-white"
         onClick={print}
       >
-        Print
+        発券
       </button>
     </div>
   )

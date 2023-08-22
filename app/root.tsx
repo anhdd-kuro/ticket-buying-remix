@@ -13,6 +13,7 @@ import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 import { AppProvider as PolarisAppProvider } from '@shopify/polaris'
 import { forwardRef } from 'react'
 import { ExternalScripts } from 'remix-utils'
+import { json } from '@remix-run/node'
 import type {
   LinkLikeComponent,
   LinkLikeComponentProps,
@@ -23,14 +24,34 @@ export const links = () => [
   { rel: 'stylesheet', href: polarisStyles },
 ]
 
-export async function loader() {
-  return {
-    polarisTranslations: require('@shopify/polaris/locales/en.json'),
+const isAuthorized = (request: Request) => {
+  const header = request.headers.get('Authorization')
+  if (!header) return false
+  const base64 = header.replace('Basic ', '')
+  const [username, password] = Buffer.from(base64, 'base64')
+    .toString()
+    .split(':')
+  return username === 'admin' && password === 'password'
+}
+
+export async function loader({ request }) {
+  const polarisTranslations = await require('@shopify/polaris/locales/en.json')
+
+  if (isAuthorized(request)) {
+    return json({
+      authorized: true,
+      polarisTranslations,
+    })
+  } else {
+    return json({ authorized: false, polarisTranslations }, { status: 401 })
   }
 }
 
 export default function App() {
-  const { polarisTranslations } = useLoaderData()
+  const { authorized, polarisTranslations } = useLoaderData<typeof loader>()
+  if (!authorized) {
+    return <>Authorization Required</>
+  }
 
   return (
     <html>

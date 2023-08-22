@@ -4,7 +4,6 @@ import { TopMenu } from '~/components/TopMenu'
 import { json, redirect } from '@remix-run/node'
 
 export const links = () => [{ rel: 'stylesheet', href: indexStyles }]
-
 export async function loader({ request }) {
   const url = new URL(request.url)
 
