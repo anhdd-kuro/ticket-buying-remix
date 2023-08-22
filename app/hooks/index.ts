@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import html2canvas from 'html2canvas'
+import { useEffect, useMemo, useRef } from 'react'
 
 export type ListReferences = {
   nodes:
@@ -76,5 +77,35 @@ export const useMetaobjectParser = <
 
   return {
     parsedData,
+  }
+}
+
+export const useCanvas = (id?: string) => {
+  const elmRef = useRef(null)
+
+  const canvasId = id || 'canvas'
+
+  useEffect(() => {
+    if (!elmRef?.current) return
+
+    html2canvas(elmRef?.current, {
+      backgroundColor: '#fff',
+      useCORS: true,
+    }).then((canvas) => {
+      canvas.setAttribute('id', canvasId)
+      canvas.style.display = 'none'
+      console.log(canvas.style)
+
+      const existingCanvas = document.getElementById(canvasId)
+      if (!existingCanvas) {
+        document.body.appendChild(canvas)
+      } else {
+        document.body.replaceChild(canvas, existingCanvas)
+      }
+    })
+  }, [canvasId])
+
+  return {
+    elmRef,
   }
 }

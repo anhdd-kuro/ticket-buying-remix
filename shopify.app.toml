@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://origin-gratis-ready-espn.trycloudflare.com"
+application_url = "https://ticket-buying-remix.vercel.app"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects"
 
 [auth]
 redirect_urls = [
-  "https://origin-gratis-ready-espn.trycloudflare.com/auth/callback",
-  "https://origin-gratis-ready-espn.trycloudflare.com/auth/shopify/callback",
-  "https://origin-gratis-ready-espn.trycloudflare.com/api/auth/callback"
+  "https://ticket-buying-remix.vercel.app/auth/callback",
+  "https://ticket-buying-remix.vercel.app/auth/shopify/callback",
+  "https://ticket-buying-remix.vercel.app/api/auth/callback"
 ]
 
 [webhooks]
@@ -23,5 +23,5 @@ api_version = "2023-07"
 embedded = false
 
 [build]
-automatically_update_urls_on_dev = true
+automatically_update_urls_on_dev = false
 dev_store_url = "krb-kuro.myshopify.com"
