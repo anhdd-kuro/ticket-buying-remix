@@ -22,6 +22,7 @@ export const literalSchema = z.union([
   z.boolean(),
   z.null(),
 ])
+
 export const jsonSchema: z.ZodType<Json> = z.lazy(() =>
   z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
 )
@@ -89,4 +90,14 @@ export function convertToCSV<T extends Record<string, any>>(data: T[]): string {
   )
 
   return `${header}\n${rows.join('\n')}`
+}
+
+export function joinAndClean(strings: string[], separator = ','): string {
+  // Use a Set to remove duplicates
+  const uniqueStrings = [...new Set(strings)].filter((string) => string !== '')
+
+  // Join the unique strings with the separator
+  const joinedString = uniqueStrings.join(separator)
+
+  return joinedString
 }
