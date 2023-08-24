@@ -32,7 +32,8 @@ export default async function handleRequest(
           const body = new PassThrough()
 
           responseHeaders.set('Content-Type', 'text/html')
-          responseHeaders.set('WWW-Authenticate', 'basic') // Basic認証のヘッダを全レスポンスで返す
+          // responseHeaders.set('WWW-Authenticate', 'basic')
+          // Basic認証のヘッダを全レスポンスで返す
 
           resolve(
             new Response(body, {

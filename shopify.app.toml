@@ -2,18 +2,18 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://monte-km-brunei-journalism.trycloudflare.com"
+application_url = "https://cyber-b-continually-style.trycloudflare.com"
 embedded = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products,write_draft_orders,read_customers,read_metaobjects,write_orders,read_orders"
+scopes = "write_products,write_draft_orders,read_customers,read_metaobjects,write_orders,read_orders,write_customers"
 
 [auth]
 redirect_urls = [
-  "https://monte-km-brunei-journalism.trycloudflare.com/auth/callback",
-  "https://monte-km-brunei-journalism.trycloudflare.com/auth/shopify/callback",
-  "https://monte-km-brunei-journalism.trycloudflare.com/api/auth/callback"
+  "https://cyber-b-continually-style.trycloudflare.com/auth/callback",
+  "https://cyber-b-continually-style.trycloudflare.com/auth/shopify/callback",
+  "https://cyber-b-continually-style.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -31,16 +31,15 @@ export const links = () => [
   { rel: 'stylesheet', href: calendarStyles },
 ]
 
-const isAuthorized = (request: Request) => {
-  const header = request.headers.get('Authorization')
-  if (!header) return false
-  const base64 = header.replace('Basic ', '')
-  const [username, password] = Buffer.from(base64, 'base64')
-    .toString()
-    .split(':')
-  return true
-  // return username === 'admin' && password === 'password'
-}
+// const isAuthorized = (request: Request) => {
+//   const header = request.headers.get('Authorization')
+//   if (!header) return false
+//   const base64 = header.replace('Basic ', '')
+//   const [username, password] = Buffer.from(base64, 'base64')
+//     .toString()
+//     .split(':')
+//   return username === 'admin' && password === 'password'
+// }
 
 export async function loader({ request }: LoaderArgs) {
   const polarisTranslations = await require('@shopify/polaris/locales/en.json')
@@ -50,21 +49,25 @@ export async function loader({ request }: LoaderArgs) {
       polarisTranslations,
     })
 
-  if (isAuthorized(request)) {
-    return json({
-      authorized: true,
-      polarisTranslations,
-    })
-  } else {
-    return json({ authorized: false, polarisTranslations }, { status: 401 })
-  }
+  return json({
+    polarisTranslations,
+  })
+
+  // if (isAuthorized(request)) {
+  //   return json({
+  //     authorized: true,
+  //     polarisTranslations,
+  //   })
+  // } else {
+  //   return json({ authorized: false, polarisTranslations }, { status: 401 })
+  // }
 }
 
 export default function App() {
-  const { authorized, polarisTranslations } = useLoaderData<typeof loader>()
-  if (!authorized) {
-    return <>Authorization Required</>
-  }
+  const { polarisTranslations } = useLoaderData<typeof loader>()
+  // if (!authorized) {
+  //   return <>Authorization Required</>
+  // }
 
   return (
     <html>

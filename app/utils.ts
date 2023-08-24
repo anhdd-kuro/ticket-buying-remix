@@ -69,3 +69,24 @@ export function yesterday() {
 export function tomorrow() {
   return dates.add(dates.startOf(new Date(), 'day'), 1, 'day')
 }
+
+export function escapeCSVValue(value: any): string {
+  if (typeof value === 'string') {
+    return `"${value.replace(/"/g, '""')}"`
+  }
+  return value.toString()
+}
+
+export function convertToCSV<T extends Record<string, any>>(data: T[]): string {
+  if (data.length === 0) {
+    return ''
+  }
+
+  const keys = Object.keys(data[0])
+  const header = keys.map((key) => escapeCSVValue(key)).join(',')
+  const rows = data.map((obj) =>
+    keys.map((key) => escapeCSVValue(obj[key])).join(',')
+  )
+
+  return `${header}\n${rows.join('\n')}`
+}
