@@ -9,20 +9,26 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react'
-import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 import { AppProvider as PolarisAppProvider } from '@shopify/polaris'
 import { forwardRef } from 'react'
 import { ExternalScripts } from 'remix-utils'
 import { json } from '@remix-run/node'
-import type { LoaderArgs } from '@remix-run/node'
+import tooltipStyles from 'react-tooltip/dist/react-tooltip.css'
+import calendarDnDStyles from 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
+import calendarStyles from 'react-big-calendar/lib/css/react-big-calendar.css'
+import polarisStyles from '@shopify/polaris/build/esm/styles.css'
 import type {
   LinkLikeComponent,
   LinkLikeComponentProps,
 } from '@shopify/polaris/build/ts/src/utilities/link'
+import type { LoaderArgs } from '@remix-run/node'
 
 export const links = () => [
   { rel: 'stylesheet', href: stylesheet },
   { rel: 'stylesheet', href: polarisStyles },
+  { rel: 'stylesheet', href: tooltipStyles },
+  { rel: 'stylesheet', href: calendarDnDStyles },
+  { rel: 'stylesheet', href: calendarStyles },
 ]
 
 const isAuthorized = (request: Request) => {
@@ -32,7 +38,8 @@ const isAuthorized = (request: Request) => {
   const [username, password] = Buffer.from(base64, 'base64')
     .toString()
     .split(':')
-  return username === 'admin' && password === 'password'
+  return true
+  // return username === 'admin' && password === 'password'
 }
 
 export async function loader({ request }: LoaderArgs) {

@@ -28,4 +28,5 @@ module.exports = {
     },
   },
   tailwind: true,
+  serverDependenciesToBundle: ['@formkit/auto-animate/react', 'nanoid'],
 }

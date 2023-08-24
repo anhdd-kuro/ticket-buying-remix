@@ -68,11 +68,7 @@ export default function () {
           />
         </label>
         <label className="flex items-center font-bold">
-          <span className="flex-1">
-            メールアドレス
-            <br />
-            または電話番号
-          </span>
+          <span className="flex-1">電話番号</span>
           <input
             ref={emailOrPhoneRef}
             id="emailOrPhone"

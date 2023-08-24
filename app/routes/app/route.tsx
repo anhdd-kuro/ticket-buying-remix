@@ -30,6 +30,7 @@ export default function App() {
         <Link to="/app/movies">チケット購入</Link>
         <Link to="/app/tickets">チケット発券</Link>
         <Link to="/app/reports">分析</Link>
+        <Link to="/app/schedules">スケジュール</Link>
       </ui-nav-menu>
       <Outlet />
     </>

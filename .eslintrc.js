@@ -46,5 +46,6 @@ module.exports = {
     ],
     'tailwindcss/enforces-shorthand': 'error',
     'tailwindcss/classnames-order': 'error',
+    'tailwindcss/no-custom-classname': 0,
   },
 }

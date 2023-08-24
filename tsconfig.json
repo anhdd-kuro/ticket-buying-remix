@@ -1,25 +1,30 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/routes/movies/route.tsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "module": "commonjs",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./app/*"]
+    },
+    "outDir": "build",
+    "lib": ["DOM", "DOM.Iterable", "esnext"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node16",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "target": "ES2019",
+    "target": "esnext",
     "strict": true,
     "allowJs": true,
     "checkJs": true,
     "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./app/*"]
-    },
     "types": [
-      "@shopify/app-bridge-types"
+      "@shopify/app-bridge-types",
     ],
-    "noEmit": true
+    "typeRoots": ["./node_modules/@types", "./node_modules"],
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
   }
 }

@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://ticket-buying-remix.vercel.app"
+application_url = "https://monte-km-brunei-journalism.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects,writ
 
 [auth]
 redirect_urls = [
-  "https://ticket-buying-remix.vercel.app/auth/callback",
-  "https://ticket-buying-remix.vercel.app/auth/shopify/callback",
-  "https://ticket-buying-remix.vercel.app/api/auth/callback"
+  "https://monte-km-brunei-journalism.trycloudflare.com/auth/callback",
+  "https://monte-km-brunei-journalism.trycloudflare.com/auth/shopify/callback",
+  "https://monte-km-brunei-journalism.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
@@ -23,5 +23,5 @@ api_version = "2023-07"
 embedded = false
 
 [build]
-automatically_update_urls_on_dev = false
+automatically_update_urls_on_dev = true
 dev_store_url = "krb-kuro.myshopify.com"
