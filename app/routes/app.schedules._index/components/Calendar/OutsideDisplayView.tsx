@@ -1,5 +1,5 @@
 import { colors } from '../../route'
-import LateShowLabel from '../../components/LateShowLabel'
+import LateShowLabel from '../LateShowLabel'
 import moment from 'moment'
 import React, { useMemo, useState } from 'react'
 import { Checkbox } from '@shopify/polaris'
