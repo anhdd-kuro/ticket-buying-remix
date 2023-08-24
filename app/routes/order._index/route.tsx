@@ -56,11 +56,11 @@ export default function () {
                   <p className="p-1 text-center">
                     <span className="text-lg font-bold">10:10</span>
                     <br />
-                    <span className="text-sm">~12:10</span>
+                    <span className="text-xs">~12:10</span>
                   </p>
-                  <p className="p-1 text-center text-sm">招待券利用不可</p>
+                  <p className="p-1 text-center text-xs">招待券利用不可</p>
                   <div className="mb-0 mt-auto px-1 pb-1">
-                    <button className="block w-full rounded bg-black py-2 text-sm font-bold text-white">
+                    <button className="block w-full rounded bg-black py-2 text-base font-bold text-white">
                       ◎ 購入
                     </button>
                   </div>
