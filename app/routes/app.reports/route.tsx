@@ -1,8 +1,8 @@
 import { authenticate } from '~/shopify.server'
-import { genderToJapanese, joinAndClean } from '~/utils'
+import { convertObjectToCSV, genderToJapanese, joinAndClean } from '~/utils'
 import { useLoaderData } from '@remix-run/react'
 import { type LoaderArgs } from '@remix-run/node'
-import { useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import clsx from 'clsx'
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -59,9 +59,33 @@ export default function () {
   }, [orders])
   console.log(orders)
 
+  const downloadCSVRef = useRef<HTMLAnchorElement>(null)
+
+  const downloadCSV = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      const csv = convertObjectToCSV(convertedOrders)
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = window.URL.createObjectURL(blob)
+      downloadCSVRef.current?.setAttribute('href', url)
+      downloadCSVRef.current?.setAttribute('download', 'orders.csv')
+      downloadCSVRef.current?.click()
+    },
+    [convertedOrders]
+  )
+
   return (
     <div className="p-4">
-      <h1 className="text-xl font-bold">注文一覧</h1>
+      <div className="flex justify-between">
+        <h1 className="text-xl font-bold">注文一覧</h1>
+        <a
+          href="/"
+          ref={downloadCSVRef}
+          className="bg-blue-500 p-4 text-white"
+          onClick={downloadCSV}
+        >
+          CSV 書き出す
+        </a>
+      </div>
       <table className="mt-4 table-auto bg-white">
         <tbody>
           <tr>

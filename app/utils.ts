@@ -75,10 +75,12 @@ export function escapeCSVValue(value: any): string {
   if (typeof value === 'string') {
     return `"${value.replace(/"/g, '""')}"`
   }
-  return value.toString()
+  return `${value}`
 }
 
-export function convertToCSV<T extends Record<string, any>>(data: T[]): string {
+export function convertObjectToCSV<T extends Record<string, any>>(
+  data: T[]
+): string {
   if (data.length === 0) {
     return ''
   }
