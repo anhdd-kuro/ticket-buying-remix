@@ -33,7 +33,9 @@ export default function () {
         ' '
       ),
       年齢: order.note_attributes.find((attr) => attr.name === 'age')?.value,
-      性別: order.note_attributes.find((attr) => attr.name === 'gender')?.value,
+      性別: genderToJapanese(
+        order.note_attributes.find((attr) => attr.name === 'gender')?.value
+      ),
       電話番号: order.phone || order.customer?.phone,
       カスタマータグ: order.customer?.tags,
       座席: joinAndClean(
@@ -68,7 +70,6 @@ export default function () {
       const url = window.URL.createObjectURL(blob)
       downloadCSVRef.current?.setAttribute('href', url)
       downloadCSVRef.current?.setAttribute('download', 'orders.csv')
-      downloadCSVRef.current?.click()
     },
     [convertedOrders]
   )
@@ -126,8 +127,6 @@ export default function () {
                                   ))}
                               </>
                             )
-                          case '性別':
-                            return <span>{genderToJapanese(value)}</span>
                           default:
                             return <span>{value}</span>
                         }
