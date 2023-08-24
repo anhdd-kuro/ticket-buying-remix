@@ -1,5 +1,5 @@
 import { authenticate } from '~/shopify.server'
-import { joinAndClean } from '~/utils'
+import { genderToJapanese, joinAndClean } from '~/utils'
 import { useLoaderData } from '@remix-run/react'
 import { type LoaderArgs } from '@remix-run/node'
 import { useMemo } from 'react'
@@ -61,12 +61,12 @@ export default function () {
 
   return (
     <div className="p-4">
-      <h1>注文一覧</h1>
-      <table className="mt-8 table-auto">
+      <h1 className="text-xl font-bold">注文一覧</h1>
+      <table className="mt-4 table-auto bg-white">
         <tbody>
           <tr>
             {Object.keys(convertedOrders[0]).flatMap((key) => (
-              <th key={key} className="whitespace-nowrap border px-4 py-2">
+              <th key={key} className="whitespace-nowrap border p-2">
                 {key}
               </th>
             ))}
@@ -75,39 +75,40 @@ export default function () {
             <tr key={order['注文ID']}>
               {Object.entries<string | number | undefined>(order).map(
                 ([key, value], index) => (
-                  <td
-                    key={key}
-                    className="max-w-[300px] space-x-2 whitespace-pre-wrap break-words border px-4 py-2"
-                  >
-                    {(() => {
-                      switch (key) {
-                        case 'カスタマータグ':
-                        case '座席':
-                        case 'チケット種別':
-                          return (
-                            <>
-                              {value
-                                ?.toString()
-                                .split(',')
-                                .flatMap((_value, _index) => (
-                                  <span
-                                    key={_index}
-                                    className={
-                                      _value &&
-                                      clsx(
-                                        'mr-1 whitespace-nowrap break-keep rounded bg-gray-200 px-2 py-1'
-                                      )
-                                    }
-                                  >
-                                    {_value}
-                                  </span>
-                                ))}
-                            </>
-                          )
-                        default:
-                          return <span className="">{value}</span>
-                      }
-                    })()}
+                  <td key={key} className=" break-words border p-2">
+                    <div className="flex min-w-[100px] max-w-[300px] flex-wrap gap-2">
+                      {(() => {
+                        switch (key) {
+                          case 'カスタマータグ':
+                          case '座席':
+                          case 'チケット種別':
+                            return (
+                              <>
+                                {value
+                                  ?.toString()
+                                  .split(',')
+                                  .flatMap((_value, _index) => (
+                                    <span
+                                      key={_index}
+                                      className={
+                                        _value &&
+                                        clsx(
+                                          'mr-1 whitespace-nowrap break-keep rounded bg-gray-200 px-2 py-1'
+                                        )
+                                      }
+                                    >
+                                      {_value}
+                                    </span>
+                                  ))}
+                              </>
+                            )
+                          case '性別':
+                            return <span>{genderToJapanese(value)}</span>
+                          default:
+                            return <span>{value}</span>
+                        }
+                      })()}
+                    </div>
                   </td>
                 )
               )}

@@ -101,3 +101,15 @@ export function joinAndClean(strings: string[], separator = ','): string {
 
   return joinedString
 }
+
+export function genderToJapanese(gender: unknown): string {
+  let result: string
+  if (gender === 'male') {
+    result = '男性'
+  } else if (gender === 'female') {
+    result = '女性'
+  } else {
+    result = 'その他'
+  }
+  return result
+}
