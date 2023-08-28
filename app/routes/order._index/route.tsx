@@ -11,12 +11,13 @@ import GET_PRODUCTS_BY_ID from '~/graphql/getProductsById.gql'
 import { Link, useLoaderData } from '@remix-run/react'
 import clsx from 'clsx'
 import { useMemo, useState } from 'react'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import type { Product } from '@shopify/app-bridge/actions/ResourcePicker'
 import type { MetaobjectResult } from '~/hooks'
 import type { LoaderArgs } from '@remix-run/node'
 import type { Movie } from '~/components/Movies'
 
-export async function loader({}: LoaderArgs) {
+export async function loader({ request }: LoaderArgs) {
   const movies = await fetchGqlAdmin<MetaobjectResult>(GET_MOVIES)
 
   const productIds = movies?.metaobjects.nodes
@@ -70,7 +71,11 @@ export default function () {
     []
   )
 
+  const [currentPage, setCurrentPage] = useState<number>(1)
+
   const [currentDayIndex, setCurrentDayIndex] = useState(0)
+
+  // const [movieListRef] = useAutoAnimate()
 
   return (
     <div className="flex h-full flex-col p-1">
@@ -102,42 +107,13 @@ export default function () {
           </li>
         ))}
       </ol>
-      <ul className="mt-4 flex flex-wrap">
-        {range(1, 6).map((i) => (
-          <li key={i} className="flex w-1/2 divide-x border">
-            <div className="w-1/5 p-2">
-              <img
-                className="h-full w-full object-cover"
-                src="https://via.placeholder.com/240x360"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-1 flex-col divide-y">
-              <div className="p-2 text-xl leading-none">
-                <h1 className="font-bold">
-                  シモーヌ フランスに最も愛された政治家
-                </h1>
-              </div>
-              <ol className="flex flex-1 divide-x">
-                <li className="flex flex-1 flex-col">
-                  <p className="p-1 text-center">
-                    <span className="text-lg font-bold">10:10</span>
-                    <br />
-                    <span className="text-xs">~12:10</span>
-                  </p>
-                  <p className="p-1 text-center text-xs">招待券利用不可</p>
-                  <div className="mb-0 mt-auto px-1 pb-1">
-                    <button className="block w-full rounded bg-black py-2 text-base font-bold text-white">
-                      ◎ 購入
-                    </button>
-                  </div>
-                </li>
-                <li className="flex-1"></li>
-                <li className="flex-1"></li>
-                <li className="flex-1"></li>
-                <li className="flex-1"></li>
-              </ol>
-            </div>
+      <ul className="mt-4 flex max-h-[80vh] flex-wrap">
+        {range(1, currentPage === 1 ? 5 : 6).map((i) => (
+          <li
+            key={i}
+            className={clsx(currentPage === 1 && i === 1 ? 'w-full' : 'w-1/2 ')}
+          >
+            <MovieCard slot={currentPage === 1 && i === 1 ? 9 : 4} />
           </li>
         ))}
       </ul>
@@ -170,8 +146,9 @@ export default function () {
               key={i}
               className={clsx(
                 'flex-center ¥¥ h-10 w-10 gap-4 rounded border text-lg leading-none ',
-                i === 1 && 'bg-black text-white'
+                i === currentPage && 'bg-black text-white'
               )}
+              onClick={() => setCurrentPage(i)}
             >
               {i}
             </button>
@@ -196,6 +173,43 @@ export default function () {
             </svg>
           </button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
+  return (
+    <div className={clsx('flex divide-x border')}>
+      <div className="w-[115px] p-2">
+        <img
+          className="h-full w-full object-cover"
+          src="https://via.placeholder.com/240x360"
+          alt=""
+        />
+      </div>
+      <div className="flex flex-1 flex-col divide-y">
+        <div className="p-2 text-xl leading-none">
+          <h1 className="font-bold">シモーヌ フランスに最も愛された政治家</h1>
+        </div>
+        <ol className="flex flex-1 divide-x">
+          <li className="flex flex-1 flex-col">
+            <p className="p-1 text-center">
+              <span className="text-lg font-bold">10:10</span>
+              <br />
+              <span className="text-xs">~12:10</span>
+            </p>
+            <p className="p-1 text-center text-xs">招待券利用不可</p>
+            <div className="mb-0 mt-auto px-1 pb-1">
+              <button className="block w-full rounded bg-black py-2 text-base font-bold text-white">
+                ◎ 購入
+              </button>
+            </div>
+          </li>
+          {range(1, slot).map((i) => (
+            <li className="flex-1" key={i}></li>
+          ))}
+        </ol>
       </div>
     </div>
   )
