@@ -109,7 +109,7 @@ export default function () {
           </li>
         ))}
       </ol>
-      <ul className="mt-4 flex max-h-[80vh] flex-wrap">
+      <ul className="mt-4 flex max-h-[80vh] flex-wrap bg-white">
         {range(1, currentPage === 1 ? 5 : 6).map((i) => (
           <li
             key={i}
