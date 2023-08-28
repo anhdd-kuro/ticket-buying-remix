@@ -61,9 +61,9 @@ export default function () {
     return map
   }, [tickets])
 
-  const fiveDaysFromNowArray = useMemo(
+  const daysFromNowArray = useMemo(
     () =>
-      Array.from(Array(5).keys()).map((i) => {
+      Array.from(Array(6).keys()).map((i) => {
         const date = new Date()
         date.setDate(date.getDate() + i)
         return date
@@ -82,7 +82,7 @@ export default function () {
   return (
     <div className="flex h-full flex-col p-1">
       <ol className="flex justify-center gap-1">
-        {fiveDaysFromNowArray.map((date, index) => (
+        {daysFromNowArray.map((date, index) => (
           <li className="flex-1" key={date.toDateString()}>
             <button
               onClick={() => setCurrentDayIndex(index)}
@@ -130,7 +130,7 @@ export default function () {
           <button
             className={clsx(
               'flex-center gap-4 rounded bg-black px-6 py-3 text-xl text-white ',
-              'disabled:bg-gray-300'
+              'disabled:bg-gray-200 disabled:text-gray-500 [&_*]:disabled:stroke-gray-500'
             )}
             onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
             disabled={currentPage === 1}
@@ -167,7 +167,7 @@ export default function () {
           ))}
 
           <button
-            className="flex-center gap-4 rounded bg-black px-6 py-3 text-xl text-white disabled:bg-gray-300"
+            className="flex-center [&_*]:disabled:stroke-gray gap-4 rounded bg-black px-6 py-3 text-xl text-white disabled:bg-gray-200 disabled:text-gray-500"
             onClick={() =>
               setCurrentPage(Math.min(currentPage + 1, pagesCount))
             }
