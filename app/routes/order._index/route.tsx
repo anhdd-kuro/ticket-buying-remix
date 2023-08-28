@@ -88,10 +88,10 @@ export default function () {
             <button
               onClick={() => setCurrentDayIndex(index)}
               className={clsx(
-                'w-full rounded border px-5 py-3 text-center leading-relaxed ',
+                'w-full rounded border px-5 py-3 text-center leading-relaxed',
                 index === currentDayIndex
-                  ? 'bg-black text-white '
-                  : 'border-black'
+                  ? 'bg-black text-white'
+                  : 'border-black bg-white'
               )}
             >
               <p className="text-xl font-bold">
