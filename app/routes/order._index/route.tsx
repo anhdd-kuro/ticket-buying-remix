@@ -200,7 +200,7 @@ export default function () {
 
 const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
   return (
-    <div className={clsx('flex divide-x border')}>
+    <div className={clsx('flex divide-x overflow-hidden border')}>
       <div className="w-[115px] p-2">
         <img
           className="h-full w-full object-cover"
@@ -212,7 +212,9 @@ const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
       </div>
       <div className="flex flex-1 flex-col divide-y">
         <div className="p-2 text-xl leading-none">
-          <h1 className="font-bold">{movie?.title || '作品名'}</h1>
+          <h1 className="max-w-[90%] truncate font-bold">
+            {movie?.title || '作品名'}
+          </h1>
         </div>
         <ol className="flex flex-1 divide-x">
           <li className="flex flex-1 flex-col">
