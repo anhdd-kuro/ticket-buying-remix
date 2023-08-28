@@ -236,20 +236,16 @@ const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
           </li>
           {range(1, slot).map((i) => (
             <li className="flex-1" key={i}>
-              <div className="mb-0 mt-auto">
-                <button className="block w-full rounded bg-black py-2 text-base font-bold text-white">
-                  <span className="text-lg font-bold">10:10</span>
-                  <br />
-                  <span className="text-xs">~12:10</span>
-                  <br />
-                  <span className="flex-center gap-1">
-                    <span>◎ 購入</span>
-                    {i === slot && (
-                      <LateShowLabel className="h-[22px] w-[22px] bg-white fill-black" />
-                    )}
-                  </span>
-                </button>
-              </div>
+              <button className="flex-center h-full w-full flex-col rounded bg-black py-2 text-base font-bold text-white">
+                <span className="text-lg font-bold">10:10</span>
+                <span className="text-xs">~12:10</span>
+                <span className="flex-center gap-1">
+                  <span>◎ 購入</span>
+                  {i === slot && (
+                    <LateShowLabel className="h-[22px] w-[22px] bg-white fill-black" />
+                  )}
+                </span>
+              </button>
             </li>
           ))}
         </ol>
