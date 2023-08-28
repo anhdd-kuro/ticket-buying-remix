@@ -1,5 +1,10 @@
 import { authenticate } from '~/shopify.server'
-import { convertObjectToCSV, genderToJapanese, joinAndClean } from '~/utils'
+import {
+  convertObjectToCSV,
+  genderToJapanese,
+  joinAndClean,
+  numberOrStringToJpy,
+} from '~/utils'
 import { useLoaderData } from '@remix-run/react'
 import { type LoaderArgs } from '@remix-run/node'
 import { useCallback, useMemo, useRef } from 'react'
@@ -24,42 +29,43 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function () {
   const { orders } = useLoaderData<typeof loader>()
   const convertedOrders = useMemo(() => {
-    return orders.map((order) => ({
-      注文番号: order.order_number,
-      注文ID: order.id,
-      メールアドレス: order.email || order.customer?.email,
-      名前: joinAndClean(
-        [order.customer?.first_name, order.customer?.last_name],
-        ' '
-      ),
-      年齢: order.note_attributes.find((attr) => attr.name === 'age')?.value,
-      性別: genderToJapanese(
-        order.note_attributes.find((attr) => attr.name === 'gender')?.value
-      ),
-      電話番号: order.phone || order.customer?.phone,
-      カスタマータグ: order.customer?.tags,
-      座席: joinAndClean(
-        order.line_items.map(
-          (item) => item.properties?.find((prop) => prop.name === 'seat')?.value
-        )
-      ),
-      チケット種別: order.line_items
-        .flatMap((item) => item.variant_title)
-        .join(', '),
-      SKU: joinAndClean(order.line_items.flatMap((item) => item.sku)),
-      チケットID: joinAndClean(
-        order.line_items.flatMap((item) => item.product_id)
-      ),
-      作品名: order.note_attributes.find((attr) => attr.name === 'movie')
-        ?.value,
-      決済方法: joinAndClean(order.payment_gateway_names),
-      ディスカウント: order.total_discounts,
-      合計税込: order.total_price,
-      合計税抜: order.subtotal_price,
-      税金: order.total_tax,
-    }))
+    return orders
+      .map((order) => {
+        return order.line_items.map((line_item) => ({
+          注文番号: order.order_number,
+          注文ID: order.id,
+          メールアドレス: order.email || order.customer?.email,
+          名前: joinAndClean(
+            [order.customer?.first_name, order.customer?.last_name],
+            ' '
+          ),
+          年齢: order.note_attributes.find((attr) => attr.name === 'age')
+            ?.value,
+          性別: genderToJapanese(
+            order.note_attributes.find((attr) => attr.name === 'gender')?.value
+          ),
+          電話番号: order.phone || order.customer?.phone,
+          カスタマータグ: order.customer?.tags,
+          座席: line_item.properties?.find((prop) => prop.name === 'seat')
+            ?.value,
+          チケット種別: line_item.variant_title,
+          SKU: line_item.sku,
+          チケットID: line_item.product_id,
+          作品名: order.note_attributes.find((attr) => attr.name === 'movie')
+            ?.value,
+          決済方法: joinAndClean(order.payment_gateway_names),
+          ディスカウント: order.total_discounts,
+          金額: line_item.price,
+          税金: line_item.tax_lines.reduce(
+            (acc, tax_line) => acc + tax_line.price,
+            0
+          ),
+        }))
+      })
+      .flat()
   }, [orders])
   console.log(orders)
+  console.log(convertedOrders, 'convertedOrders')
 
   const downloadCSVRef = useRef<HTMLAnchorElement>(null)
 
@@ -90,14 +96,21 @@ export default function () {
       <table className="mt-4 table-auto bg-white">
         <tbody>
           <tr>
+            <th className="whitespace-nowrap border p-2">行目</th>
             {Object.keys(convertedOrders[0]).flatMap((key) => (
               <th key={key} className="whitespace-nowrap border p-2">
                 {key}
               </th>
             ))}
           </tr>
-          {convertedOrders.map((order) => (
-            <tr key={order['注文ID']}>
+          {convertedOrders.map((order, order_index) => (
+            <tr
+              key={order['注文ID'] + order['チケット種別']}
+              className="odd:bg-gray-100"
+            >
+              <td className=" break-words border p-2 text-center">
+                {order_index}
+              </td>
               {Object.entries<string | number | undefined>(order).map(
                 ([key, value], index) => (
                   <td key={key} className=" break-words border p-2">
@@ -127,6 +140,9 @@ export default function () {
                                   ))}
                               </>
                             )
+                          case '金額':
+                          case '税金':
+                            return <span>{numberOrStringToJpy(value)}</span>
                           default:
                             return <span>{value}</span>
                         }

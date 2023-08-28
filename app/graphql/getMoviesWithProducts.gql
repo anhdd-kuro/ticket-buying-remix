@@ -1,0 +1,41 @@
+query getMovies($count: Int = 30) {
+  metaobjects(first: $count, type: "movies", reverse: true) {
+    nodes {
+      handle
+      id
+      fields {
+        key
+        value
+        references(first: 10) {
+          nodes {
+            ... on Product {
+              id
+              title
+              handle
+              metaData: metafield(key: "meta_data", namespace: "custom") {
+                key
+                value
+              }
+            }
+            ... on Metaobject {
+              handle
+              id
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+        reference {
+          ... on MediaImage {
+            image {
+              altText
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}

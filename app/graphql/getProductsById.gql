@@ -1,0 +1,13 @@
+query getProductsById($ids: [ID!]!) {
+  nodes(ids: $ids) {
+    ...on Product {
+      id
+      handle
+      options {
+        id
+        name
+        values
+      }
+    }
+  }
+}

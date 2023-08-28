@@ -1,5 +1,6 @@
 import { useMetaobjectParser } from '~/hooks'
-import GET_MOVIES from '~/graphql/getMovies.gql'
+import GET_MOVIES from '~/graphql/getMoviesWithProducts.gql'
+import { fetchGqlAdmin } from '~/utils'
 import { Outlet, useLoaderData, useMatches } from '@remix-run/react'
 import type { LoaderArgs } from '@remix-run/node'
 import type { MetaobjectResult } from '~/hooks'
@@ -11,29 +12,10 @@ export type MoviesContextData = {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-  if (!process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN)
-    return {
-      data: null,
-    }
-
-  const apiResponse = await fetch(
-    'https://krb-kuro.myshopify.com/admin/api/2023-07/graphql.json',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
-      },
-      body: JSON.stringify({ query: GET_MOVIES }),
-    }
-  )
-
-  const resData: { data: MetaobjectResult } = await apiResponse.json()
-
-  console.log(resData, 'apiResponse')
+  const data = await fetchGqlAdmin<MetaobjectResult>(GET_MOVIES)
 
   return {
-    data: resData.data,
+    data,
   }
 }
 

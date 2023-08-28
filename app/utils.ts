@@ -8,7 +8,9 @@ export const toggleCSSclasses = (el, ...cls: string[]) =>
   cls.map((cl) => el.classList.toggle(cl))
 
 export const numberOrStringToJpy = (num?: number | string) => {
-  return (num || '0').toLocaleString('ja-JP', {
+  if (num === undefined || num === null) return '0'
+
+  return Number.parseInt(`${num}`).toLocaleString('ja-JP', {
     style: 'currency',
     currency: 'JPY',
   })
@@ -94,14 +96,22 @@ export function convertObjectToCSV<T extends Record<string, any>>(
   return `${header}\n${rows.join('\n')}`
 }
 
-export function joinAndClean(strings: string[], separator = ','): string {
+export function joinAndClean(strings: string[], separator = ', '): string {
   // Use a Set to remove duplicates
-  const uniqueStrings = [...new Set(strings)].filter((string) => string !== '')
+  const uniqueStrings = [...new Set(strings)].filter((string) => !!string)
 
   // Join the unique strings with the separator
   const joinedString = uniqueStrings.join(separator)
 
   return joinedString
+}
+
+export function removeNullishValuesAndDuplicatesFromArray(
+  arr?: (string | number | null | undefined)[]
+) {
+  if (!arr) return []
+
+  return [...new Set(arr.filter((v) => !!v))]
 }
 
 export function genderToJapanese(gender: unknown): string {
@@ -119,4 +129,36 @@ export function genderToJapanese(gender: unknown): string {
 export function dayNumToJapanese(day) {
   const days = ['日', '月', '火', '水', '木', '金', '土']
   return days[day]
+}
+
+export const fetchGqlAdmin = async <T>(
+  query: string,
+  variables?: Record<string, unknown>
+) => {
+  const apiResponse = await fetchAdmin('/admin/api/2023-07/graphql.json', {
+    method: 'POST',
+    body: JSON.stringify({ query, variables }),
+  })
+
+  const resData: { data: T } = await apiResponse?.json()
+
+  // console.log(resData, 'apiResponse')
+
+  return resData.data
+}
+
+export const fetchAdmin = (
+  input: URL | RequestInfo,
+  init?: RequestInit | undefined
+) => {
+  if (!process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN) return
+
+  return fetch('https://krb-kuro.myshopify.com/' + input, {
+    ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
+      ...init?.headers,
+    },
+  })
 }
