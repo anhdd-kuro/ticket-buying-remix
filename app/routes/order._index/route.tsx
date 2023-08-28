@@ -157,8 +157,10 @@ export default function () {
             <button
               key={i}
               className={clsx(
-                'flex-center ¥¥ h-10 w-10 gap-4 rounded border text-lg leading-none ',
-                i === currentPage && 'bg-black text-white'
+                'flex-center ¥¥ h-10 w-10 gap-4 rounded border text-lg leading-none',
+                i === currentPage
+                  ? 'bg-black text-white'
+                  : 'bg-white text-black'
               )}
               onClick={() => setCurrentPage(i)}
             >
