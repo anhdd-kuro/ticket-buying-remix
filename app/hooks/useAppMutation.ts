@@ -1,6 +1,6 @@
-import { UseMutationOptions, UseMutationResult, useMutation } from 'react-query'
-import { useAuthenticatedFetch } from './useAuthenticatedFetch'
+import { useMutation } from 'react-query'
 import { useMemo } from 'react'
+import type { UseMutationOptions, UseMutationResult } from 'react-query'
 
 type AppMutationOptions<TData, TVariables> = {
   url: string
@@ -35,12 +35,10 @@ export const useAppMutation = <TData, TVariables>({
   TData,
   TVariables
 > => {
-  const authenticatedFetch = useAuthenticatedFetch()
-
   const mutation = useMemo(() => {
     return async (variables: TVariables) => {
       console.log(variables)
-      const response = await authenticatedFetch(url, {
+      const response = await fetch(url, {
         ...fetchInit,
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
@@ -49,6 +47,7 @@ export const useAppMutation = <TData, TVariables>({
 
       return response.json() as Promise<TData>
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, JSON.stringify(fetchInit)])
 
   return useMutation<TData, unknown, TVariables, unknown>(mutation, {
