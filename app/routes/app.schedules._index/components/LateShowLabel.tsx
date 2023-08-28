@@ -2,26 +2,28 @@ import clsx from 'clsx'
 
 export default function LateShowLabel({
   rounded = true,
+  className = 'bg-[#6372e5]',
 }: {
   rounded?: boolean
+  className?: string
 }) {
   return (
-    <div
-      className={clsx(
-        'flex items-center justify-center overflow-hidden bg-[#6372e5] px-4 py-1',
-        rounded && 'rounded-md'
-      )}
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 17 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={clsx(rounded && 'rounded-md', className)}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 20 20"
-        fill="#fff"
-      >
-        <title>moon</title>
-        <path d="M17.39 15.14A7.33 7.33 0 0 1 11.75 1.6c.23-.11.56-.23.79-.34a8.19 8.19 0 0 0-5.41.45 9 9 0 1 0 7 16.58 8.42 8.42 0 0 0 4.29-3.84 5.3 5.3 0 0 1-1.03.69z" />
-      </svg>
-    </div>
+      <title>late show</title>
+      <rect width="17" height="17" rx="3" fill="white" />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M14.0016 10.4796C14.0011 10.4796 14.0005 10.4796 14 10.4796C10.8409 10.4796 8.28 7.91864 8.28 4.75957C8.28 3.97998 8.43596 3.23681 8.71838 2.55957C5.56006 2.56044 3 5.12104 3 8.27957C3 11.4386 5.56093 13.9996 8.72 13.9996C11.0995 13.9996 13.1396 12.5466 14.0016 10.4796Z"
+        fill="black"
+      />
+    </svg>
   )
 }

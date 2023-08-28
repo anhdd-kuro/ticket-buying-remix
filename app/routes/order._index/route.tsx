@@ -1,3 +1,4 @@
+import { LateShowLabel } from '../app.schedules._index/components'
 import {
   dayNumToJapanese,
   fetchAdmin,
@@ -117,7 +118,7 @@ export default function () {
           >
             <MovieCard
               movie={parsedMovies?.[i]}
-              slot={currentPage === 1 && i === 1 ? 9 : 4}
+              slot={currentPage === 1 && i === 1 ? 8 : 3}
             />
           </li>
         ))}
@@ -200,8 +201,8 @@ export default function () {
 
 const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
   return (
-    <div className={clsx('flex divide-x overflow-hidden border')}>
-      <div className="w-[100px] min-w-[100px] p-2">
+    <div className={clsx('flex divide-x border')}>
+      <div className="w-[100px] min-w-[100px] p-1">
         <img
           className="h-full w-full object-cover"
           src={
@@ -210,28 +211,46 @@ const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
           alt={movie?.thumbnail.image.altText || '作品画像'}
         />
       </div>
-      <div className="flex flex-1 flex-col divide-y">
-        <div className="p-2 text-xl leading-none">
-          <h1 className="max-w-[90%] truncate font-bold">
+      <div className="flex flex-1 flex-col divide-y overflow-hidden">
+        <div className="flex flex-col p-2 text-xl leading-none">
+          <h1 className="min-w-0 truncate font-bold">
             {movie?.title || '作品名'}
           </h1>
+          <div className="mt-1 flex items-center text-xs leading-none">
+            <p className="p-1 font-bold">招待券利用不可</p>
+            <span className="rounded bg-gray-300 p-1 font-bold text-white">
+              PG12
+            </span>
+          </div>
         </div>
-        <ol className="flex flex-1 divide-x">
-          <li className="flex flex-1 flex-col">
-            <p className="p-1 text-center">
-              <span className="text-lg font-bold">10:10</span>
-              <br />
-              <span className="text-xs">~12:10</span>
-            </p>
-            <p className="p-1 text-center text-xs">招待券利用不可</p>
-            <div className="mb-0 mt-auto px-1 pb-1">
+        <ol className="flex flex-1 gap-1 p-1">
+          <li className="flex-1">
+            <div className="mb-0 mt-auto">
               <button className="block w-full rounded bg-black py-2 text-base font-bold text-white">
-                ◎ 購入
+                <span className="text-lg font-bold">10:10</span>
+                <br />
+                <span className="text-xs">~12:10</span>
+                <br />◎ 購入
               </button>
             </div>
           </li>
           {range(1, slot).map((i) => (
-            <li className="flex-1" key={i}></li>
+            <li className="flex-1" key={i}>
+              <div className="mb-0 mt-auto">
+                <button className="block w-full rounded bg-black py-2 text-base font-bold text-white">
+                  <span className="text-lg font-bold">10:10</span>
+                  <br />
+                  <span className="text-xs">~12:10</span>
+                  <br />
+                  <span className="flex-center gap-1">
+                    <span>◎ 購入</span>
+                    {i === slot && (
+                      <LateShowLabel className="h-[22px] w-[22px] bg-white fill-black" />
+                    )}
+                  </span>
+                </button>
+              </div>
+            </li>
           ))}
         </ol>
       </div>
