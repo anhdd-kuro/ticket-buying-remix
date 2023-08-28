@@ -226,11 +226,12 @@ const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
         <ol className="flex flex-1 gap-1 p-1">
           <li className="flex-1">
             <div className="mb-0 mt-auto">
-              <button className="block w-full rounded bg-black py-2 text-base font-bold text-white">
+              <button className="flex-center h-full w-full flex-col gap-2 rounded bg-black py-2 text-base font-bold text-white">
                 <span className="text-lg font-bold">10:10</span>
-                <br />
                 <span className="text-xs">~12:10</span>
-                <br />◎ 購入
+                <span className="flex-center gap-1 text-sm leading-none">
+                  <span>◎ 購入</span>
+                </span>
               </button>
             </div>
           </li>
@@ -239,7 +240,7 @@ const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
               <button className="flex-center h-full w-full flex-col gap-2 rounded bg-black py-2 text-base font-bold text-white">
                 <span className="text-lg font-bold leading-none">10:10</span>
                 <span className="text-xs leading-none">~12:10</span>
-                <span className="flex-center gap-1 leading-none">
+                <span className="flex-center gap-1 text-sm leading-none">
                   <span>◎ 購入</span>
                   {i === slot && (
                     <LateShowLabel className="h-[22px] w-[22px] bg-white fill-black" />
