@@ -75,6 +75,8 @@ export default function () {
 
   const [currentDayIndex, setCurrentDayIndex] = useState(0)
 
+  const pagesCount = 3
+
   // const [movieListRef] = useAutoAnimate()
 
   return (
@@ -113,7 +115,10 @@ export default function () {
             key={i}
             className={clsx(currentPage === 1 && i === 1 ? 'w-full' : 'w-1/2 ')}
           >
-            <MovieCard slot={currentPage === 1 && i === 1 ? 9 : 4} />
+            <MovieCard
+              movie={parsedMovies?.[i]}
+              slot={currentPage === 1 && i === 1 ? 9 : 4}
+            />
           </li>
         ))}
       </ul>
@@ -122,7 +127,14 @@ export default function () {
           はじめから
         </Link>
         <div className="ml-auto mr-0 flex items-center gap-2">
-          <button className="flex-center gap-4 rounded bg-black px-6 py-3 text-xl text-white ">
+          <button
+            className={clsx(
+              'flex-center gap-4 rounded bg-black px-6 py-3 text-xl text-white ',
+              'disabled:bg-gray-300'
+            )}
+            onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
+            disabled={currentPage === 1}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="14"
@@ -141,7 +153,7 @@ export default function () {
             </svg>
             前の作品
           </button>
-          {range(1, 3).map((i) => (
+          {range(1, pagesCount).map((i) => (
             <button
               key={i}
               className={clsx(
@@ -154,7 +166,13 @@ export default function () {
             </button>
           ))}
 
-          <button className="flex-center gap-4 rounded bg-black px-6 py-3 text-xl text-white">
+          <button
+            className="flex-center gap-4 rounded bg-black px-6 py-3 text-xl text-white disabled:bg-gray-300"
+            onClick={() =>
+              setCurrentPage(Math.min(currentPage + 1, pagesCount))
+            }
+            disabled={currentPage === pagesCount}
+          >
             次の作品
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +208,7 @@ const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
       </div>
       <div className="flex flex-1 flex-col divide-y">
         <div className="p-2 text-xl leading-none">
-          <h1 className="font-bold">シモーヌ フランスに最も愛された政治家</h1>
+          <h1 className="font-bold">{movie?.title || '作品名'}</h1>
         </div>
         <ol className="flex flex-1 divide-x">
           <li className="flex flex-1 flex-col">
