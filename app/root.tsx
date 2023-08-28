@@ -17,11 +17,22 @@ import tooltipStyles from 'react-tooltip/dist/react-tooltip.css'
 import calendarDnDStyles from 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import calendarStyles from 'react-big-calendar/lib/css/react-big-calendar.css'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
 import type {
   LinkLikeComponent,
   LinkLikeComponentProps,
 } from '@shopify/polaris/build/ts/src/utilities/link'
 import type { LoaderArgs } from '@remix-run/node'
+
+const client = new QueryClient({
+  queryCache: new QueryCache(),
+  mutationCache: new MutationCache(),
+})
 
 export const links = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -82,7 +93,9 @@ export default function App() {
           i18n={polarisTranslations}
           linkComponent={RemixPolarisLink as LinkLikeComponent}
         >
-          <Outlet />
+          <QueryClientProvider client={client}>
+            <Outlet />
+          </QueryClientProvider>
         </PolarisAppProvider>
         <ScrollRestoration />
         <LiveReload />

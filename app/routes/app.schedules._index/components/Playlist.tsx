@@ -43,10 +43,12 @@ export default function Playlist({ startDate, movie }: PlaylistProps) {
   }, [startDate, playlist])
 
   const { isLoading, isFetching } = useAppQuery({
-    url: `/api/trailer_set?query=display_name:ハマのドン`,
+    url: `/app/trailer_set?query=display_name:ハマのドン`,
     reactQueryOptions: {
       enabled: !!startDate && !!movie,
       onSuccess: (result: any) => {
+        console.log(result, 'result')
+
         const _playlist: PlayList[] = result.data.metaobjects.nodes.map(
           (node: any) => {
             const fields = node.fields.reduce((acc: any, field: any) => {

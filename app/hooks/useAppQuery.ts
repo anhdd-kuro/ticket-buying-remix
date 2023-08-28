@@ -1,4 +1,3 @@
-import { useAuthenticatedFetch } from './useAuthenticatedFetch'
 import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import type { UseQueryOptions, UseQueryResult } from 'react-query'
@@ -28,16 +27,15 @@ export const useAppQuery = <TData>({
   fetchInit = {},
   reactQueryOptions,
 }: AppQueryOptions<TData>): AppQueryResult<TData> => {
-  const authenticatedFetch = useAuthenticatedFetch()
-  const fetch = useMemo(() => {
+  const _fetch = useMemo(() => {
     return async () => {
-      const response = await authenticatedFetch(url, fetchInit)
+      const response = await fetch(url, fetchInit)
       return response.json() as Promise<TData>
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, JSON.stringify(fetchInit), authenticatedFetch])
+  }, [url, JSON.stringify(fetchInit)])
 
-  return useQuery<TData>(url, fetch, {
+  return useQuery<TData>(url, _fetch, {
     ...reactQueryOptions,
     refetchOnWindowFocus: false,
   })
