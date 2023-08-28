@@ -55,9 +55,9 @@ export default function () {
             ?.value,
           決済方法: joinAndClean(order.payment_gateway_names),
           ディスカウント: order.total_discounts,
-          金額: line_item.price,
+          金額: +line_item.price,
           税金: line_item.tax_lines.reduce(
-            (acc, tax_line) => acc + tax_line.price,
+            (acc, tax_line) => acc + +tax_line.price,
             0
           ),
         }))
@@ -104,10 +104,7 @@ export default function () {
             ))}
           </tr>
           {convertedOrders.map((order, order_index) => (
-            <tr
-              key={order['注文ID'] + order['チケット種別']}
-              className="odd:bg-gray-100"
-            >
+            <tr key={order['注文ID'] + order_index} className="odd:bg-gray-100">
               <td className=" break-words border p-2 text-center">
                 {order_index}
               </td>
