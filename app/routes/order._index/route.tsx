@@ -201,7 +201,7 @@ export default function () {
 const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
   return (
     <div className={clsx('flex divide-x overflow-hidden border')}>
-      <div className="w-[115px] p-2">
+      <div className="w-[100px] min-w-[100px] p-2">
         <img
           className="h-full w-full object-cover"
           src={
