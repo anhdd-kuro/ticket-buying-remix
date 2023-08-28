@@ -202,8 +202,10 @@ const MovieCard = ({ movie, slot }: { movie?: Movie; slot: number }) => {
       <div className="w-[115px] p-2">
         <img
           className="h-full w-full object-cover"
-          src="https://via.placeholder.com/240x360"
-          alt=""
+          src={
+            movie?.thumbnail.image.url || 'https://via.placeholder.com/240x360'
+          }
+          alt={movie?.thumbnail.image.altText || '作品画像'}
         />
       </div>
       <div className="flex flex-1 flex-col divide-y">
