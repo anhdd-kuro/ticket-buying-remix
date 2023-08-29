@@ -3,10 +3,18 @@ query getProductsById($ids: [ID!]!) {
     ...on Product {
       id
       handle
-      options {
-        id
-        name
-        values
+      title
+      variants(first: 10) {
+        nodes {
+          id
+          title
+          price {
+            amount
+          }
+        }
+      }
+      metaData: metafield(namespace: "custom", key: "meta_data") {
+        value
       }
     }
   }

@@ -15,6 +15,7 @@ export const useTicketsStore = create<{
   toggleTicketBySeat: (seat: string) => void
   modifyTicket: (seat: string, type: Ticket['type'], price?: number) => void
   isAllTicketsSet: () => boolean
+  reset: () => void
 }>((set, get) => ({
   tickets: [] as Ticket[],
   getTicketIndexBySeat: (seat: string) => {
@@ -50,5 +51,10 @@ export const useTicketsStore = create<{
       tickets.length > 0 &&
       tickets.every((ticket) => ticket.type && ticket.price)
     )
+  },
+  reset: () => {
+    set({
+      tickets: [],
+    })
   },
 }))

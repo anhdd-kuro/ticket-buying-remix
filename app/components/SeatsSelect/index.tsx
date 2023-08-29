@@ -2,18 +2,16 @@ import { Seat } from '../icons'
 import { toggleCSSclasses } from '~/utils'
 import { useTicketsStore } from '~/stores'
 import { useCallback, useEffect } from 'react'
+import type { Ticket } from '~/stores'
 
-interface Ticket {
-  seat: string
-  type?: string
-  price?: number
-}
 const selectedStyles = ['selected']
 
 export const SeatsSelect = ({
   selectSeat,
+  className,
 }: {
   selectSeat?: (tickets: Ticket[]) => void
+  className?: string
 }) => {
   const tickets = useTicketsStore((state) => state.tickets)
   const toggleTicketBySeat = useTicketsStore(
@@ -60,5 +58,5 @@ export const SeatsSelect = ({
     selectSeat?.(tickets)
   }, [tickets, selectSeat])
 
-  return <Seat />
+  return <Seat className={className} />
 }

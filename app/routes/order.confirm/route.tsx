@@ -13,6 +13,7 @@ export async function loader({ request, params, context }: LoaderArgs) {
 
   return {}
 }
+
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData()
   const searchParams = new URLSearchParams()
@@ -35,11 +36,16 @@ export default function () {
   const parsedTickets: Ticket[] = isTicketValid ? JSON.parse(tickets) : []
   const email = searchParams.get('email')
 
+  const movie = searchParams.get('movie') || ''
+  const showId = searchParams.get('showId') || ''
+
   return (
     <OrderConfirm
+      movie={movie}
+      showId={showId}
       email={email}
       tickets={parsedTickets}
-      formAction={`/order/done`}
+      formAction={`/order/confirm`}
     />
   )
 }

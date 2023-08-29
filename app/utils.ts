@@ -162,3 +162,36 @@ export const fetchAdmin = (
     },
   })
 }
+
+export const fetchGqlStorefront = async <T>(
+  query: string,
+  variables?: Record<string, unknown>
+) => {
+  const apiResponse = await fetchStorefront('/api/2023-07/graphql.json', {
+    method: 'POST',
+    body: JSON.stringify({ query, variables }),
+  })
+
+  const resData: { data: T } = await apiResponse?.json()
+
+  // console.log(resData, 'apiResponse')
+
+  return resData.data
+}
+
+export const fetchStorefront = (
+  input: URL | RequestInfo,
+  init?: RequestInit | undefined
+) => {
+  if (!process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN) return
+
+  return fetch('https://krb-kuro.myshopify.com/' + input, {
+    ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token':
+        process.env.SHOPIFY_STOREFRONT_TOKEN || '',
+      ...init?.headers,
+    },
+  })
+}

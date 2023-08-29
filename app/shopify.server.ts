@@ -8,6 +8,7 @@ import {
 } from '@shopify/shopify-app-remix'
 import { PrismaSessionStorage } from '@shopify/shopify-app-session-storage-prisma'
 import { restResources } from '@shopify/shopify-api/rest/admin/2023-07'
+import { createStorefrontClient } from '@shopify/hydrogen-react'
 
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
@@ -42,3 +43,13 @@ export const authenticate = shopify.authenticate
 export const login = shopify.login
 export const registerWebhooks = shopify.registerWebhooks
 export const sessionStorage = shopify.sessionStorage
+
+const storefrontClient = createStorefrontClient({
+  privateStorefrontToken: process.env.SHOPIFY_STOREFRONT_TOKEN || '',
+  storeDomain: `https://${process.env.SHOPIFY_SHOP_NAME}.com`,
+  storefrontApiVersion: LATEST_API_VERSION,
+  publicStorefrontToken: process.env.SHOPIFY_PUBLIC_STOREFRONT_TOKEN || '',
+})
+
+export const getStorefrontApiUrl = storefrontClient.getStorefrontApiUrl
+export const getPrivateTokenHeaders = storefrontClient.getPrivateTokenHeaders

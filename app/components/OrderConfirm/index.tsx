@@ -1,31 +1,32 @@
 import { numberOrStringToJpy } from '~/utils'
-import { Form } from '@remix-run/react'
+import { Form, Link } from '@remix-run/react'
 import type { Ticket } from '~/stores'
 
 type Props = {
   tickets: Ticket[]
   formAction: string
   email?: string | null
+  movie: string
+  showId: string
 }
 
-const OrderConfirm = ({ tickets, email, formAction }: Props) => {
+const OrderConfirm = ({ tickets, email, formAction, movie, showId }: Props) => {
   return (
-    <div className="mx-auto w-2/3 p-8">
+    <div className="mx-auto flex h-full w-2/3 flex-col p-8">
       <h1 className="text-center text-2xl font-bold">購入チケット確認</h1>
-      <p className="text-lg font-bold">Email: {email}</p>
-      <ul className=" mt-16 flex flex-col gap-4">
+      <ul className="mt-12 grid grid-cols-2 gap-4">
         {tickets.map((ticket) => (
           <li
             key={ticket.seat}
             className="rounded-lg bg-gray-200 p-4 shadow-md"
           >
-            <p>{ticket.seat}</p>
-            <p>{ticket.type?.title}</p>
-            <p>{numberOrStringToJpy(ticket.price)}</p>
+            <p>作品: {movie}</p>
+            <p>座席: {ticket.seat}</p>
+            <p>金額: {numberOrStringToJpy(ticket.price)}</p>
           </li>
         ))}
       </ul>
-      <p className="mt-4 py-2 text-xl">
+      <p className="my-4 text-center text-xl font-bold">
         合計金額:
         {numberOrStringToJpy(
           tickets.reduce((acc, ticket) => acc + (ticket.price || 0), 0)
@@ -34,7 +35,7 @@ const OrderConfirm = ({ tickets, email, formAction }: Props) => {
       <h2 className="font-bold">利用規約</h2>
       <div
         id="scrollable"
-        className="h-[200px] overflow-y-auto bg-gray-200 p-4"
+        className="mt-2 h-[200px] overflow-y-auto bg-gray-200 p-4"
       >
         <p>
           株式会社エイジオン（以下「当社」という）およびKBCシネマ1・2（以下「当劇場」という）は、オンラインチケット販売（以下「本サービス」という）をご利用いただくに当たって“オンラインチケット購入（決済）等に関する利用規約”（以下「本規約」という）を以下の通り定めます。本規約にご同意の上、本サービスをご利用ください。
@@ -252,6 +253,7 @@ const OrderConfirm = ({ tickets, email, formAction }: Props) => {
 
       <Form method="post" action={formAction}>
         <input name="email" type="email" value={email || ''} hidden readOnly />
+        <input name="movie" type="text" value={movie || ''} hidden readOnly />
         <input
           name="tickets"
           type="text"
@@ -261,12 +263,28 @@ const OrderConfirm = ({ tickets, email, formAction }: Props) => {
         />
         <button
           type="submit"
-          className="mx-auto mt-4 block rounded border bg-[#626367] px-16 py-2 text-white"
+          className="mx-auto mt-4 block rounded border bg-[#626367] px-16 py-3 text-white"
         >
           {/* Create Draft Order ( 下書き注文を作成 ) */}
           KBCシネマの利用規約に同意する
         </button>
       </Form>
+      <div className="mb-0 mt-auto flex gap-4">
+        <Link
+          to="/order"
+          type="button"
+          className="rounded bg-black px-4 py-2 text-lg font-bold text-white"
+        >
+          初めからやり直す
+        </Link>
+        <Link
+          to={`/order?movie=${movie}&showId=${showId}`}
+          type="submit"
+          className="rounded bg-black px-4 py-2 text-lg font-bold text-white"
+        >
+          座席を選び直す
+        </Link>
+      </div>
     </div>
   )
 }

@@ -11,7 +11,7 @@ export type Movie = {
   original_showtime_year: string
   country_of_production: string
   lens: string
-  rated: string
+  rate: string
   length: string
   director: string
   stars: string

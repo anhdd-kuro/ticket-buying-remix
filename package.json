@@ -42,6 +42,7 @@
     "@shopify/app-bridge-types": "^0.0.3",
     "@shopify/app-bridge-utils": "^3.5.1",
     "@shopify/cli": "^3.48.1",
+    "@shopify/hydrogen-react": "^2023.7.2",
     "@shopify/polaris": "^11.11.0",
     "@shopify/shopify-app-remix": "^1.0.4",
     "@shopify/shopify-app-session-storage-prisma": "^1.0.4",
