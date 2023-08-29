@@ -34,7 +34,6 @@ export default function () {
   const isTicketValid = jsonSchema.safeParse(tickets).success
 
   const parsedTickets: Ticket[] = isTicketValid ? JSON.parse(tickets) : []
-  const email = searchParams.get('email')
 
   const movie = searchParams.get('movie') || ''
   const showId = searchParams.get('showId') || ''
@@ -43,9 +42,8 @@ export default function () {
     <OrderConfirm
       movie={movie}
       showId={showId}
-      email={email}
       tickets={parsedTickets}
-      formAction={`/order/confirm`}
+      formAction={`/order/done`}
     />
   )
 }

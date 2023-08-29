@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://ones-acquisition-dec-taxi.trycloudflare.com"
+application_url = "https://fin-this-boards-knit.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects,writ
 
 [auth]
 redirect_urls = [
-  "https://ones-acquisition-dec-taxi.trycloudflare.com/auth/callback",
-  "https://ones-acquisition-dec-taxi.trycloudflare.com/auth/shopify/callback",
-  "https://ones-acquisition-dec-taxi.trycloudflare.com/api/auth/callback"
+  "https://fin-this-boards-knit.trycloudflare.com/auth/callback",
+  "https://fin-this-boards-knit.trycloudflare.com/auth/shopify/callback",
+  "https://fin-this-boards-knit.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -120,5 +120,8 @@ export const handle = {
     {
       src: '/StarWebPrintTrader.js',
     },
+    {
+      src: '/printer.js',
+    },
   ],
 }

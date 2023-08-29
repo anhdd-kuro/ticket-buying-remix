@@ -1,16 +1,21 @@
 import { numberOrStringToJpy } from '~/utils'
 import { Form, Link } from '@remix-run/react'
+import { Modal } from '@shopify/polaris'
+import { useState } from 'react'
+import { z } from 'zod'
 import type { Ticket } from '~/stores'
 
 type Props = {
   tickets: Ticket[]
   formAction: string
-  email?: string | null
   movie: string
   showId: string
 }
 
-const OrderConfirm = ({ tickets, email, formAction, movie, showId }: Props) => {
+const OrderConfirm = ({ tickets, formAction, movie, showId }: Props) => {
+  const [open, setOpen] = useState(false)
+  const [email, setEmail] = useState('')
+
   return (
     <div className="mx-auto flex h-full w-2/3 flex-col p-8">
       <h1 className="text-center text-2xl font-bold">購入チケット確認</h1>
@@ -250,25 +255,14 @@ const OrderConfirm = ({ tickets, email, formAction, movie, showId }: Props) => {
         <br />
         <p>2019年 11月5日制定</p>
       </div>
-
-      <Form method="post" action={formAction}>
-        <input name="email" type="email" value={email || ''} hidden readOnly />
-        <input name="movie" type="text" value={movie || ''} hidden readOnly />
-        <input
-          name="tickets"
-          type="text"
-          value={JSON.stringify(tickets)}
-          hidden
-          readOnly
-        />
-        <button
-          type="submit"
-          className="mx-auto mt-4 block rounded border bg-[#626367] px-16 py-3 text-white"
-        >
-          {/* Create Draft Order ( 下書き注文を作成 ) */}
-          KBCシネマの利用規約に同意する
-        </button>
-      </Form>
+      <button
+        type="submit"
+        className="mx-auto mt-4 block rounded border bg-[#626367] px-16 py-3 text-white"
+        onClick={() => setOpen(true)}
+      >
+        {/* Create Draft Order ( 下書き注文を作成 ) */}
+        KBCシネマの利用規約に同意する
+      </button>
       <div className="mb-0 mt-auto flex gap-4">
         <Link
           to="/order"
@@ -285,6 +279,72 @@ const OrderConfirm = ({ tickets, email, formAction, movie, showId }: Props) => {
           座席を選び直す
         </Link>
       </div>
+      <Modal open={open} onClose={() => setOpen(false)} title="メール登録">
+        <Modal.Section>
+          <div>
+            <Form
+              method="post"
+              action={formAction}
+              className="flex flex-col gap-4"
+            >
+              <input
+                name="email"
+                type="email"
+                value={email || ''}
+                hidden
+                readOnly
+              />
+              <input
+                name="movie"
+                type="text"
+                value={movie || ''}
+                hidden
+                readOnly
+              />
+              <input
+                name="tickets"
+                type="text"
+                value={JSON.stringify(tickets)}
+                hidden
+                readOnly
+              />
+              <p>
+                メール登録はいかがですか <br />
+                ・メールからお支払いを行うことができます
+                <br />
+                ・会員の方はメールを入力してください
+              </p>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                className="rounded-md border p-2"
+                placeholder="メールを入力してください"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="mx-auto rounded-lg bg-blue-500 p-4 px-16 text-white disabled:bg-gray-400"
+                disabled={!z.string().email().safeParse(email).success}
+              >
+                同時にアカウント登録して購入
+              </button>
+              <button
+                type="submit"
+                className="mx-auto rounded-lg bg-blue-500 p-4 px-16 text-white disabled:bg-gray-400"
+              >
+                登録せずに購入
+              </button>
+              {/* All tickets information */}
+              <input
+                type="hidden"
+                name="tickets"
+                value={JSON.stringify(tickets)}
+              />
+            </Form>
+          </div>
+        </Modal.Section>
+      </Modal>
     </div>
   )
 }
