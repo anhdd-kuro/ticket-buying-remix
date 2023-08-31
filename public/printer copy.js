@@ -1,15 +1,26 @@
-const url = "http://localhost:8001/StarWebPRNT/SendMessage"
-// const url = "http://192.168.11.11/StarWebPRNT/SendMessage"
+const url = "http://localhost:8001/StarWebPRNT/SendMessage";
+// const url = "http://192.168.11.11/StarWebPRNT/SendMessage";
 
-async function print() {
+if (typeof StarWebPrintTrader === 'undefined' || typeof StarWebPrintBuilder === 'undefined') {
+  alert('StarWebPrintTrader not loaded');
+  return;
+}
+
+function print() {
+  alert('print function');
   const canvases = document.querySelectorAll('[data-selector=ticket-canvas]');
+
+  if (canvases.length === 0) {
+    alert('No canvases found');
+    return;
+  }
 
   const trader = new StarWebPrintTrader({ url: url });
 
   let resolvePromise;
 
   trader.onReceive = function (response) {
-    // alert('Received response');
+    alert('Received response');
 
     let msg = '- onReceive -\n\n';
 
@@ -47,35 +58,47 @@ async function print() {
     console.log(msg);
   };
 
-  try {
-    for (const canvas of canvases) {
-      if (canvas.getContext) {
-        const builder = new StarWebPrintBuilder();
-        const context = canvas.getContext('2d');
+  const promiseArray = [];
 
-        let request = '';
+  for (const canvas of canvases) {
+    if (canvas.getContext) {
+      const builder = new StarWebPrintBuilder();
+      const context = canvas.getContext('2d');
 
-        request += builder.createInitializationElement();
+      let request = '';
 
-        console.log(canvas.width + 'x' + canvas.height);
+      request += builder.createInitializationElement();
 
-        request += builder.createBitImageElement({ context: context, x: 0, y: 0, width: canvas.width, height: canvas.height });
+      console.log(canvas.width + 'x' + canvas.height);
 
-        request += builder.createCutPaperElement({ feed: true });
+      request += builder.createBitImageElement({ context: context, x: 0, y: 0, width: canvas.width, height: canvas.height });
 
-        await new Promise((resolve) => {
-          resolvePromise = resolve;
-          trader.sendMessage({ request: request });
-        });
-      }
+      request += builder.createCutPaperElement({ feed: true });
+
+      const promise = new Promise((resolve) => {
+        resolvePromise = resolve;
+        trader.sendMessage({ request: request });
+      });
+
+      promiseArray.push(promise);
     }
-  } catch (e) {
-    console.log(e.message);
   }
+
+  Promise.all(promiseArray)
+    .then(() => {
+      console.log('All promises resolved.');
+    })
+    .catch((e) => {
+      console.log(e.message);
+    });
 }
 
 window.addEventListener('load', function () {
-  const printBtn = document.getElementById('print-button')
-  alert('printBtn loaded' + printBtn)
-  printBtn?.addEventListener('click', () => print('ticket-canvas'))
-})
+  const printBtn = document.getElementById('print-button');
+  alert('printBtn loaded' + printBtn);
+  printBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    alert('printBtn clicked')
+    print('ticket-canvas')
+  });
+});

@@ -50,7 +50,7 @@ export default function () {
   return (
     <div className="p-16">
       <Form
-        action="/tickets/print"
+        action="/order/confirm"
         method="get"
         className="mx-auto flex w-[500px] flex-col gap-4"
       >

@@ -83,6 +83,20 @@ export const MovieShowModal = ({
             />
             <input type="hidden" name="showId" value={show.id} readOnly />
             <input type="hidden" name="movie" value={movie?.title} readOnly />
+            <input type="hidden" name="rate" value={movie?.rate} readOnly />
+            <input type="hidden" name="screen" value="シネマ1" readOnly />
+            <input
+              type="hidden"
+              name="start"
+              value={metaData.start.slice(11)}
+              readOnly
+            />
+            <input
+              type="hidden"
+              name="end"
+              value={metaData.end.slice(11)}
+              readOnly
+            />
             <div className="flex gap-8">
               <div className="w-1/2">
                 <SeatsSelect className="w-full" />

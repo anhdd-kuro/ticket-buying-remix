@@ -1,9 +1,8 @@
 import { gidToId, htmlDecode, numberOrStringToJpy } from '~/utils'
 import DRAFT_ORDER from '~/graphql/createDraftOrder.gql'
+import TicketPrint from '~/components/MovieTicket'
 import { json, redirect } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import { useEffect, useMemo, useRef } from 'react'
-import html2canvas from 'html2canvas'
 import type { Ticket } from '~/stores'
 import type { LoaderArgs } from '@remix-run/node'
 
@@ -31,9 +30,33 @@ export async function loader({ request, params, context }: LoaderArgs) {
   )
 
   if (orderResult.status === 200) {
+    const tenMinutesFromNow = new Date(new Date().getTime() + 600000)
+      .toLocaleTimeString()
+      .slice(0, 5)
+
+    const now = new Date()
+      .toLocaleString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      })
+      .replace(/\//g, '-')
+      .replace(',', '')
+
     const data = await orderResult.json()
+
+    const convertedLineItems = data.draft_order.line_items.map((lineItem) => ({
+      ...lineItem,
+      price: numberOrStringToJpy(lineItem.price),
+    }))
+
     return {
-      order: data.draft_order,
+      order: { ...data.draft_order, line_items: convertedLineItems },
+      tenMinutesFromNow,
+      now,
     }
   }
 
@@ -47,7 +70,8 @@ export async function loader({ request, params, context }: LoaderArgs) {
 
 export const action = async ({ request, response }) => {
   const formData = await request.formData()
-  const { tickets, email, movie } = Object.fromEntries(formData)
+  const { tickets, email, movie, start, end, rate, screen } =
+    Object.fromEntries(formData)
   console.log(tickets, 'tickets')
   console.log(email, 'email')
   const parsedTickets: Ticket[] = JSON.parse(htmlDecode(tickets))
@@ -89,12 +113,12 @@ export const action = async ({ request, response }) => {
               provinceCode: '',
               zip: '',
             },
-            customAttributes: [
-              {
-                key: 'movie',
-                value: movie,
-              },
-            ],
+            customAttributes: Object.entries(Object.fromEntries(formData)).map(
+              ([key, value]) => ({
+                key,
+                value,
+              })
+            ),
             email: email || 'dad.duong@karabiner.tech',
             lineItems,
             // lineItems: [
@@ -146,7 +170,7 @@ export const action = async ({ request, response }) => {
 export default function () {
   // const [searchParams] = useSearchParams()
   // const orderId = searchParams.get('orderId')
-  const { order, error, status } = useLoaderData()
+  const { order, error, status, now, tenMinutesFromNow } = useLoaderData()
   console.log(order)
 
   return (
@@ -161,8 +185,18 @@ export default function () {
           movie={
             order.note_attributes.find((attr) => attr.name === 'movie').value
           }
-          rate="PG12"
-          screen="シネマ1"
+          start={
+            order.note_attributes.find((attr) => attr.name === 'start')?.value
+          }
+          end={order.note_attributes.find((attr) => attr.name === 'end')?.value}
+          rate={
+            order.note_attributes.find((attr) => attr.name === 'rate')?.value
+          }
+          screen={
+            order.note_attributes.find((attr) => attr.name === 'screen')?.value
+          }
+          now={now}
+          tenMinutesFromNow={tenMinutesFromNow}
         />
       ))}
       <div className="mx-auto flex w-[80%&] flex-col gap-4 p-8 text-center leading-relaxed">
@@ -202,128 +236,6 @@ export default function () {
         <Link to="/tickets" className="block w-[20rem] bg-slate-800 p-4">
           チケット発券
         </Link>
-      </div>
-    </div>
-  )
-}
-
-const TicketPrint = ({
-  movie,
-  orderId,
-  price,
-  seat,
-  variantTitle,
-  rate,
-  screen,
-}: {
-  seat: string
-  orderId: string
-  price: string
-  variantTitle: string
-  movie: string
-  rate: string
-  screen: string
-}) => {
-  const componentRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!componentRef.current) return
-
-    componentRef.current.style.transform = `scale(${
-      576 / componentRef.current.clientWidth
-    })`
-
-    html2canvas(componentRef.current, {
-      scrollX: -window.scrollX,
-      scrollY: -window.scrollY,
-      windowWidth: document.documentElement.offsetWidth,
-      windowHeight: document.documentElement.offsetHeight,
-    }).then((canvas) => {
-      const id = `${orderId}_${seat}`
-      canvas.setAttribute('id', id)
-      canvas.setAttribute('data-selector', 'ticket-canvas')
-      canvas.style.display = 'none'
-
-      const existingCanvas = document.getElementById(id)
-      if (!existingCanvas) {
-        document.body.appendChild(canvas)
-      } else {
-        document.body.replaceChild(canvas, existingCanvas)
-      }
-    })
-  }, [orderId, seat])
-
-  return (
-    <div
-      ref={componentRef}
-      className="absolute left-[-9999px] top-[-9999px] inline-flex flex-col gap-2 bg-white px-5 py-4 leading-none"
-    >
-      <div className="flex flex-col items-start justify-start gap-1 self-stretch">
-        <div>
-          <span className="font-bold" suppressHydrationWarning>
-            {new Date(new Date().getTime() + 600000)
-              .toLocaleTimeString()
-              .slice(0, 5)}
-          </span>
-          <span className="text-[10px] font-medium">
-            までに窓口でお支払いください。
-          </span>
-        </div>
-        <div className="text-xs font-medium">注文番号：{orderId}</div>
-      </div>
-      <hr className="h-px border border-zinc-600" />
-      <div className="flex flex-col items-end justify-start gap-1.5 self-stretch [&>*]:w-full">
-        <div className="flex items-center justify-between">
-          <p className="text-lg font-bold leading-none">KBCシネマ</p>
-          <p className="box-border rounded border border-black p-1 font-bold">
-            未払い
-          </p>
-        </div>
-        <div className="rounded bg-black p-1">
-          <div className="flex items-center justify-start gap-2 text-xs">
-            <p className="font-bold text-white">{movie}</p>
-            <p className="rounded-sm border bg-white p-[2px] leading-none text-black">
-              {rate}
-            </p>
-          </div>
-          <div className="mt-1 text-xs font-bold text-white">
-            舞台挨拶付き (13:00〜)
-          </div>
-        </div>
-        <div className="flex flex-col text-xs font-bold [&>*]:w-full">
-          <div className="border border-neutral-400 px-4 py-1 text-center">
-            8/22(火) 　 12:15〜13:45
-          </div>
-          <div className="flex text-center">
-            <p className="w-2/3 border border-neutral-400 p-1 font-bold">
-              {screen}
-            </p>
-            <p className="flex-1 border border-neutral-400 p-1 font-bold">
-              {seat}
-            </p>
-          </div>
-        </div>
-        <div className="flex w-full justify-between text-xs font-bold">
-          <span>{variantTitle}</span>
-          <span>{numberOrStringToJpy(price)}</span>
-        </div>
-        <div
-          className="text-right text-[10px] font-medium"
-          suppressHydrationWarning
-        >
-          発行日時：
-          {new Date()
-            .toLocaleString('ja-JP', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-            })
-            .replace(/\//g, '-')
-            .replace(',', '')}
-        </div>
       </div>
     </div>
   )

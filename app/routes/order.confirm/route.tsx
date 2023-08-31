@@ -36,12 +36,20 @@ export default function () {
   const parsedTickets: Ticket[] = isTicketValid ? JSON.parse(tickets) : []
 
   const movie = searchParams.get('movie') || ''
+  const rate = searchParams.get('rate') || ''
+  const screen = searchParams.get('screen') || ''
   const showId = searchParams.get('showId') || ''
+  const start = searchParams.get('start') || ''
+  const end = searchParams.get('end') || ''
 
   return (
     <OrderConfirm
       movie={movie}
       showId={showId}
+      rate={rate}
+      screen={screen}
+      start={start}
+      end={end}
       tickets={parsedTickets}
       formAction={`/order/done`}
     />
