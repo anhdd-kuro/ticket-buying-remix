@@ -17,12 +17,14 @@ import tooltipStyles from 'react-tooltip/dist/react-tooltip.css'
 import calendarDnDStyles from 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import calendarStyles from 'react-big-calendar/lib/css/react-big-calendar.css'
 import polarisStyles from '@shopify/polaris/build/esm/styles.css'
+import reactToastify from 'react-toastify/dist/ReactToastify.css'
 import {
   MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
 } from 'react-query'
+import { ToastContainer } from 'react-toastify'
 import type {
   LinkLikeComponent,
   LinkLikeComponentProps,
@@ -40,6 +42,7 @@ export const links = () => [
   { rel: 'stylesheet', href: tooltipStyles },
   { rel: 'stylesheet', href: calendarDnDStyles },
   { rel: 'stylesheet', href: calendarStyles },
+  { rel: 'stylesheet', href: reactToastify },
 ]
 
 // const isAuthorized = (request: Request) => {
@@ -100,6 +103,7 @@ export default function App() {
             <Outlet />
           </QueryClientProvider>
         </PolarisAppProvider>
+        <ToastContainer />
         <ScrollRestoration />
         <LiveReload />
         <ExternalScripts />

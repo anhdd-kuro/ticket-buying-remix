@@ -76,6 +76,6 @@ async function print() {
 
 window.addEventListener('load', function () {
   const printBtn = document.getElementById('print-button')
-  alert('printBtn loaded' + printBtn)
+  // alert('printBtn loaded' + printBtn)
   printBtn?.addEventListener('click', () => print('ticket-canvas'))
 })

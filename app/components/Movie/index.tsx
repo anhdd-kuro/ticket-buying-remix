@@ -188,16 +188,6 @@ export default function Movie({ movie }: Props) {
           open={modal}
           onClose={toggleModal}
           title="メール確認"
-          // primaryAction={{
-          //   content: 'Add Instagram',
-          //   // onAction: handleChange,
-          // }}
-          // secondaryActions={[
-          //   {
-          //     content: 'Learn more',
-          //     onAction: toggleModal,
-          //   },
-          // ]}
         >
           <Modal.Section>
             <div>
