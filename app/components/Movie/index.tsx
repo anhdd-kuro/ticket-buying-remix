@@ -1,5 +1,5 @@
 import { SeatsSelect } from '~/components/SeatsSelect'
-import { useTicketsStore } from '~/stores'
+import { useTicketsStore } from '~/stores/useTicketsStore'
 import { Form } from '@remix-run/react'
 import { useCallback, useMemo, useState } from 'react'
 import { Modal, Select } from '@shopify/polaris'

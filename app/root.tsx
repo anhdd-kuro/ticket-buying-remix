@@ -103,7 +103,7 @@ export default function App() {
             <Outlet />
           </QueryClientProvider>
         </PolarisAppProvider>
-        <ToastContainer />
+        <ToastContainer autoClose={2000} />
         <ScrollRestoration />
         <LiveReload />
         <ExternalScripts />

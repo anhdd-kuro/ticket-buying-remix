@@ -3,7 +3,7 @@ import OrderConfirm from '~/components/OrderConfirm'
 import { redirect } from '@remix-run/node'
 import { useLocation, useSearchParams } from '@remix-run/react'
 import type { LoaderArgs, ActionArgs } from '@remix-run/node'
-import type { Ticket } from '~/stores'
+import type { Ticket } from '~/stores/useTicketsStore'
 
 export async function loader({ request, params, context }: LoaderArgs) {
   console.log('------------------------------------------')

@@ -10,7 +10,7 @@ import {
 import { useMetaobjectParser } from '~/hooks'
 import GET_MOVIES from '~/graphql/getMovies.gql'
 import GET_PRODUCTS_BY_ID from '~/graphql/getProductsById.gql'
-import { useTicketsStore } from '~/stores'
+import { useTicketsStore } from '~/stores/useTicketsStore'
 import { Link, useLoaderData } from '@remix-run/react'
 import clsx from 'clsx'
 import { useCallback, useMemo, useState } from 'react'

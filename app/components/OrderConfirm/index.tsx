@@ -3,7 +3,7 @@ import { Form, Link } from '@remix-run/react'
 import { Modal } from '@shopify/polaris'
 import { useState } from 'react'
 import { z } from 'zod'
-import type { Ticket } from '~/stores'
+import type { Ticket } from '~/stores/useTicketsStore'
 
 type Props = {
   tickets: Ticket[]

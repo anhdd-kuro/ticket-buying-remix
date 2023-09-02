@@ -2,7 +2,7 @@
 
 name = "ticket-buying-remix"
 client_id = "49db1078e32326d7d2fbf3b070fda62c"
-application_url = "https://surrounded-duo-diagnosis-vietnamese.trycloudflare.com"
+application_url = "https://pharmacy-signature-doubt-advertise.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products,write_draft_orders,read_customers,read_metaobjects,writ
 
 [auth]
 redirect_urls = [
-  "https://surrounded-duo-diagnosis-vietnamese.trycloudflare.com/auth/callback",
-  "https://surrounded-duo-diagnosis-vietnamese.trycloudflare.com/auth/shopify/callback",
-  "https://surrounded-duo-diagnosis-vietnamese.trycloudflare.com/api/auth/callback"
+  "https://pharmacy-signature-doubt-advertise.trycloudflare.com/auth/callback",
+  "https://pharmacy-signature-doubt-advertise.trycloudflare.com/auth/shopify/callback",
+  "https://pharmacy-signature-doubt-advertise.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

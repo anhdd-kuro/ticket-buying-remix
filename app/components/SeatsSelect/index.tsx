@@ -1,8 +1,8 @@
 import { Seat } from '../icons'
 import { toggleCSSclasses } from '~/utils'
-import { useTicketsStore } from '~/stores'
+import { useTicketsStore } from '~/stores/useTicketsStore'
 import { useCallback, useEffect } from 'react'
-import type { Ticket } from '~/stores'
+import type { Ticket } from '~/stores/useTicketsStore'
 
 const selectedStyles = ['selected']
 

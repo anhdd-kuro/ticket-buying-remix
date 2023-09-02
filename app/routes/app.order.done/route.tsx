@@ -5,7 +5,7 @@ import { useLoaderData } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import ReactToPrint, { useReactToPrint } from 'react-to-print'
 import html2canvas from 'html2canvas'
-import type { Ticket } from '~/stores'
+import type { Ticket } from '~/stores/useTicketsStore'
 import type { LoaderArgs } from '@remix-run/node'
 
 export async function loader({ request, params, context }: LoaderArgs) {

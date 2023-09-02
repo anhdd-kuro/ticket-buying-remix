@@ -3,7 +3,7 @@ import DRAFT_ORDER from '~/graphql/createDraftOrder.gql'
 import TicketPrint from '~/components/MovieTicket'
 import { json, redirect } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import type { Ticket } from '~/stores'
+import type { Ticket } from '~/stores/useTicketsStore'
 import type { LoaderArgs } from '@remix-run/node'
 
 export async function loader({ request, params, context }: LoaderArgs) {

@@ -1,5 +1,5 @@
 import { SeatsSelect } from '~/components/SeatsSelect'
-import { useTicketsStore } from '~/stores'
+import { useTicketsStore } from '~/stores/useTicketsStore'
 import { numberOrStringToJpy } from '~/utils'
 import { Modal } from '@shopify/polaris'
 import { useCallback, useMemo } from 'react'
