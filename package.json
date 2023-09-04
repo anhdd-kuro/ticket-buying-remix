@@ -2,8 +2,9 @@
   "name": "ticket-buying-remix",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production remix build && yarn setup",
-    "predev": "prisma generate && prisma migrate deploy",
+    "build": "pnpm run setup && pnpm run build:remix",
+    "build:remix": "NODE_ENV=production remix build",
+    "predev": "pnpm run setup",
     "dev": "run-p dev:svg dev:remix",
     "icons": "npx @svgr/cli --out-dir app/components/icons -- app/icons",
     "icons:watch": "npm-watch icons",
@@ -19,7 +20,7 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "shopify": "shopify",
     "prisma": "prisma",
-    "setup": "prisma generate && prisma migrate deploy"
+    "setup": "run-s prisma generate && prisma migrate deploy"
   },
   "watch": {
     "icons": {
