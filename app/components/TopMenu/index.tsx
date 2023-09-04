@@ -31,10 +31,7 @@ export const TopMenu = ({ prefix = '' }: { prefix?: string }) => {
           maxScansPerSecond: 1,
           highlightCodeOutline: true,
           highlightScanRegion: true,
-          onDecodeError: (error) => {
-            console.error(error)
-            // toast.error('QRコードの読み取りに失敗しました。')
-          },
+          preferredCamera: 'user',
         }
       )
     }
@@ -44,12 +41,26 @@ export const TopMenu = ({ prefix = '' }: { prefix?: string }) => {
         .promise(qrScanner.current.start(), {
           pending: 'QRコード読み取り起動',
           success: 'QRコードの読み取り開始',
-          error: 'QRコードの読み取り失敗',
+          error: {
+            render({ data }) {
+              return (
+                <div>
+                  QRコードの読み取り起動に失敗しました。
+                  <br />
+                  {`${data}`}
+                </div>
+              )
+            }
+          },
         })
         .then(() => {
           console.log('qrScanner started')
           setScanStatus('scanning')
+        }).catch((e) => {
+          setScanStatus('')
+          toast.error(e.messages)
         })
+        qrScanner.current.start()
     }
   }, [open, scanStatus])
 
@@ -67,7 +78,7 @@ export const TopMenu = ({ prefix = '' }: { prefix?: string }) => {
   }
 
   const cancelScan = () => {
-    qrScanner.current?.stop()
+    stopScan()
     setScanStatus('')
   }
 
@@ -75,7 +86,7 @@ export const TopMenu = ({ prefix = '' }: { prefix?: string }) => {
     <>
       <Modal
         open={open}
-        onClose={() => stopScan()}
+        onClose={() => cancelScan()}
         title="会員QRコード読み取り"
         large
       >
